@@ -32,3 +32,4 @@ firstname: Nombre
 Lastname: Apellido
 Firstname: Nombre
 modify.car: Modificar auto
+incorrect.year.value: Año incorrecto. Rango (%from% - %to%)

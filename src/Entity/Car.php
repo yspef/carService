@@ -3,8 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\CarRepository;
+use App\Validator as AppAsserts;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+// use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CarRepository::class)
@@ -46,6 +48,7 @@ class Car
 
     /**
      * @ORM\Column(type="integer")
+     * @AppAsserts\CarYear()
      */
     private $yearModel;
 
