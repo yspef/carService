@@ -1,0 +1,7 @@
+{% import '/macros/buttons.html.twig' as fap_macros %}
+
+<form method="post" action="{{ path('car_service_models_delete', {'id': row.id}) }}" onsubmit="return confirm('{{'confirm.delete'|trans({},'messages')}}');">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ row.id) }}">
+    {{ fap_macros.btn_delete( true ) }}
+</form>

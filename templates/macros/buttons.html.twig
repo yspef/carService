@@ -1,0 +1,69 @@
+{# generic template #}
+
+{% macro btn_link(url, text = '', btn_class = 'btn-primary', icon_class = '', show_balloon = false, confirmation = false, blank = false, small = false) %}
+
+    {% if false == small %}
+        {% set borders = 'border-top-width: 5px;border-bottom-width: 5px; padding-top: 3px;padding-bottom: 3px;' %}
+    {% else %}
+        {% set borders = 'border-top-width: 0px;border-bottom-width: 0px; padding-top: 0px;padding-bottom: 0px;' %}
+    {% endif %}
+
+    {# <a class="btn {{btn_class}}" href="{{url}}" data-toggle="tooltip" data-placement="top" style="border-top-width: 5px;border-bottom-width: 5px; padding-top: 3px;padding-bottom: 3px;" {% if true == show_balloon %}title="{{text}}"{% endif %}{% if true == confirmation %} onclick="return confirm('¿ Confirma ?')"{% endif %}{% if true == blank %}target="_blank"{% endif %}>{% if false == show_balloon %}{{text}}{% endif %} #}
+    <a class="btn {{btn_class}}" href="{{url}}" data-toggle="tooltip" data-placement="top" style="{{borders}}" {% if true == show_balloon %}title="{{text}}"{% endif %}{% if true == confirmation %} onclick="return confirm('¿ Confirma ?')"{% endif %}{% if true == blank %}target="_blank"{% endif %}>{% if false == show_balloon %}{{text}}{% endif %}
+        {% if '' != icon_class %}
+            <span>
+                <i class="{{icon_class}}" style=""></i>
+            </span>
+        {% endif %}
+    </a>
+{% endmacro %}
+
+{# delete button #}
+
+{% macro btn_delete(show_balloon = false) %}
+    {{ _self.btn('delete'|trans,  'btn-danger', 'fa fa-trash-alt', show_balloon) }} 
+{% endmacro %}
+
+{# new link button #}
+
+{% macro btn_link_new(url, show_balloon = true, confirmation = false, blank = false) %}
+    {{ _self.btn_link(url, 'add'|trans,  'btn-info', 'far fa-plus-square', show_balloon, confirmation, blank) }} 
+{% endmacro %}
+
+{# edit link button #}
+
+{% macro btn_link_edit(url, show_balloon = true, confirmation = false, blank) %}
+    {{ _self.btn_link(url, 'edit'|trans,  'btn-success', 'fa fa-pencil-alt', show_balloon, confirmation, blank) }} 
+{% endmacro %}
+
+
+{# save link button #}
+
+{% macro btn_save(label = 'save') %}
+    {{ _self.btn(label|trans,  'btn-success', 'fa fa-save') }} 
+{% endmacro %}
+
+
+{# generic template #}
+
+{% macro btn(text, btn_class = 'btn-primary', icon_class = '', show_balloon = false, type = 'submit', formaction = '', confirmation = false, target = false) %}
+
+    {% if false == target %}
+        {% set target = '' %}
+    {% else %}
+        {% set target = '_blank' %}
+    {% endif %}
+
+    <button formtarget="{{target}}" type="{{type}}" class="btn {{btn_class}}" data-toggle="tooltip" data-placement="top" {% if true == show_balloon %}title="{{text}}"{% endif %}  {% if '' != formaction %}formaction="{{formaction}}"{% endif %} {% if true == confirmation %} onclick="return confirm('{{'confirm'|trans}}')"{% endif %}>{% if false == show_balloon %}{{ button_label|default(text) }}{% endif %}
+        {% if '' != icon_class %}
+            <span>
+                <i class="{{icon_class}}"></i>
+            </span>
+        {% endif %}
+    </button>
+{% endmacro %}
+
+{% macro btn_link_back(url, show_balloon = true) %}
+    {{ _self.btn_link(url, 'back'|trans,  'btn-primary', 'fa fa-arrow-circle-left', show_balloon) }} 
+{% endmacro %}
+

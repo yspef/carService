@@ -1,0 +1,15 @@
+{% import '@Base/twig/macros/buttons.html.twig' as fap_macros %}
+
+<div class="row text-right no-gutters mt-1 mb-1 fap-max-content">
+    {% if is_granted( 'ROLE_EDIT_PRODUCT' ) %}
+        <div class="col-md-auto pl-1 pr-1">
+            {{ fap_macros.btn_link_edit( path('foxtrot_alpha_products_products_edit', {'id': row.id} ) ) }}
+        </div>
+    {% endif %}
+    
+    {% if is_granted( 'ROLE_DELETE_PRODUCT' ) %} 
+        <div class="col-md-auto pl-1 pr-1">
+            {{ include('@Products/product/_delete_form.html.twig', { 'foxtrot_alpha_products_products_delete': row }) }}
+        </div>
+    {% endif %}
+</div>

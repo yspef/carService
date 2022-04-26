@@ -1,0 +1,21 @@
+{% import '/macros/buttons.html.twig' as fap_macros %}
+
+{% if marginAuto is not defined %}
+    {% set marginAuto = 'ml-md-auto' %}
+{% endif %}
+
+<div class="alert alert-primary mb-0">
+    <div class="row">
+        <div class="col-md-auto">
+            <h4>{{mainTitle|raw}}</h4>
+        </div>
+
+        {% block customHeader %}{% endblock %}
+
+        <div class="col-md-auto {{marginAuto}} text-right">
+            {{ fap_macros.btn_link_back( url, false ) }}
+        </div>
+    </div>
+</div>
+
+<br>

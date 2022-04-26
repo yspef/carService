@@ -1,0 +1,45 @@
+{% block root %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+
+        <meta name="robots" content="noindex,nofollow,noarchive" />
+    
+        {% block stylesheets %}{% endblock %}
+
+        <link rel="stylesheet" href="{{ asset('css/common/darkly.min.css') }}" >
+        <link rel="stylesheet" href="{{ asset('vendor/fontawesome/css/all.min.css') }}" >
+
+        {# // <script src="{{ asset('bundles/base/vendor/jquery/js/jquery-3.4.1.min.js') }}"></script> #}
+        {# // <script src="{{ asset('bundles/base/vendor/bootstrap-4.3.1-dist/js/bootstrap.min.js') }}"></script> #}
+
+        {# <link rel="stylesheet" href="{{ asset('bundles/private/css/main.css') }}" > #}
+        {# <link rel="shortcut icon" type="image/png" href="{{asset(global_favicon)}}" /> #}
+        {# <link rel="stylesheet" href="{{ asset('bundles/base/css/tables.css') }}" > #}
+    </head>
+    
+    <body>
+        {# pass an array argument to get the messages of those types  #}
+
+        {# {% for label, messages in app.session.flashbag.all(['warning', 'danger', 'success']) %} #}
+        {# {% for label, messages in app.session.flashbag.all(['warning', 'danger', 'success']) %}
+            {% for message in messages %}
+                {% if 'warning' == label %}
+                    {% set label = 'warn' %}
+                {% else %}
+                    {% if 'danger' == label %}
+                        {% set label = 'error' %}
+                    {% endif %}
+                {% endif %}
+                <script>$.notify( '{{message}}', { className: '{{label}}', autoHide: false })</script>
+                <br>
+            {% endfor %}
+        {% endfor %} #}
+
+        {% block body %}{% endblock %}
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>
+{% endblock %}

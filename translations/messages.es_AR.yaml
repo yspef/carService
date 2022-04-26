@@ -1,0 +1,24 @@
+save: Guardar
+back: Volver
+Description: Descripción
+Online: Activo
+Can paint: Incluir en el servicio de pintura
+actions: Acciones
+cars: Autos
+colors: Colores
+description: Descripción
+models: Modelos
+no.data: Sin datos
+online: Activo
+color: Color
+add: Agregar
+add.f: Nueva
+edit: Modificar
+delete: Borrar
+modify.color: Modificar color
+brands: Marcas
+confirm.delete: ¿Confirma borrar?
+brand: Marca
+-- select --: -- seleccionar --
+model: Modelo
+Brand: Marca
