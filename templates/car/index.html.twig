@@ -15,18 +15,26 @@
         <div class="col-md-auto">
             <h4>{{title}}</h4>
         </div>
+
+        <div class="col-md-auto">
+        </div>
+
         <div class="col text-right">
             <h4>{{ fap_macros.btn_link_new( path('car_service_cars_new') ) }}</h4>
         </div>
     </div>
+
+    {% include '/car/_filter.html.twig' %}
 </div>
 
 <div class="table-list table-responsive">
     <table class="table table-index table-striped table-sm">
         <thead>
             <tr>
+                {# <th>{{ knp_pagination_filter }}</th> #}
                 <th>{{ knp_pagination_sortable(pagination, 'brand'|trans, 'brand.description') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'model'|trans, 'model.description') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'owner'|trans, 'owner.lastname') }}</th>
                 <th scope="col" class="text-center pl-0 pr-0">{{ 'actions'|trans }}</th>
             </tr>
         </thead>
@@ -35,6 +43,7 @@
             <tr>
                 <td class="text-left">{{ row.brand }}</td>
                 <td class="text-left">{{ row.model }}</td>
+                <td class="text-left">{{ row.owner }}</td>
                 <td class="float-right d-table">
                     {% include '/car/_index_actions.html.twig' %}
                 </td>                

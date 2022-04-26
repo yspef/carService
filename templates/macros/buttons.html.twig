@@ -18,6 +18,19 @@
     </a>
 {% endmacro %}
 
+
+{# search button #}
+
+{% macro btn_search(show_balloon = false) %}
+    {{ _self.btn('search'|trans,  'btn-warning', 'fa fa-search', show_balloon, 'submit') }} 
+{% endmacro %}
+
+{# clear form button #}
+
+{% macro btn_clear_form(form) %}
+    {{ _self.btn('clean.filter'|trans,  'btn-secondary btn-filter', 'fas fa-broom', true, 'button') }} 
+{% endmacro %}
+
 {# delete button #}
 
 {% macro btn_delete(show_balloon = false) %}

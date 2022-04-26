@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Brand;
 use App\Entity\Car;
 use App\Entity\Model;
+use App\Entity\Owner;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -55,6 +56,7 @@ class CarRepository extends ServiceEntityRepository
             ->createQueryBuilder('car')
             ->leftJoin(Brand::class, 'brand',  'WITH', 'brand.id = car.brand' )
             ->leftJoin(Model::class, 'model',  'WITH', 'model.id = car.model' )
+            ->leftJoin(Owner::class, 'owner',  'WITH', 'owner.id = car.owner' )
             ->addOrderBy('car.brand', 'ASC')
             ->addOrderBy('car.model', 'ASC')
         ;

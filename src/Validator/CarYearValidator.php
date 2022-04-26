@@ -41,25 +41,9 @@ class CarYearValidator extends ConstraintValidator
 
         if($this->carYearFrom > $value || $to < $value)
         {
-        //     // // throw this exception if your validator cannot handle the passed type so that it can be marked as invalid
-        //     // throw new UnexpectedValueException($value, 'string');
-
-        //     // separate multiple types using pipes
-        //     // throw new UnexpectedValueException($value, 'string|int');
-        // }
-
-        // // access your configuration options like this:
-        // if ('strict' === $constraint->mode) {
-        //     // ...
-        // }
-
-        // if (!preg_match('/^[a-zA-Z0-9]+$/', $value, $matches)) {
-            // the argument must be a string or an object implementing __toString()
-
             $msg = $this->translator->trans($constraint->message, [ '%from%' => $this->carYearFrom, '%to%' => $to,]);
 
             $this->context->buildViolation($msg)
-                // ->setParameter('hola', $value)
                 ->addViolation();
         }
     }

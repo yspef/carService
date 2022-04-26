@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Car;
+use App\Filter\CarFilterType;
 use App\Form\CarType;
 use App\Repository\CarRepository;
 use Knp\Component\Pager\PaginatorInterface;
+use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdater;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,15 +21,34 @@ class CarController extends AbstractController
     /**
      * @Route({"en":"/index","es":"/indice"}, name="index", methods={"GET"})
      */
-    public function index(Request $request, PaginatorInterface $paginator, CarRepository $carRepository): Response
+    public function index(Request $request, PaginatorInterface $paginator, CarRepository $carRepository, FilterBuilderUpdater $filterUpdater): Response
     {
         $limit = 10;
+
+        $filter = $this->createForm(CarFilterType::class);
 
         $paginatorOptions =
         [
             // 'defaultSortFieldName' => 'car.brand',
             // 'defaultSortDirection' => 'asc'
         ];
+
+        if ($request->query->has($filter->getName())) 
+        {
+            // manually bind values from the request
+            $filter->submit($request->query->get($filter->getName()));
+
+            // initialize a query builder
+            $filterBuilder = $carRepository
+                ->createQueryBuilder('e')
+            ;
+
+            // build the query from the given form object
+            $filterUpdater->addFilterConditions($filter, $filterBuilder);
+
+            // now look at the DQL =)
+            var_dump($filterBuilder->getDql());
+        }
 
         $pagination = $paginator->paginate(
             $carRepository->index(),
@@ -38,6 +59,7 @@ class CarController extends AbstractController
 
         return $this->render('/car/index.html.twig', [
             'pagination' => $pagination,
+            'formFilter' => $filter->createView(),
         ]);
     }
 

@@ -1,0 +1,58 @@
+{% import '/macros/buttons.html.twig' as fap_macros %}
+
+{% block beforeFilterForm %}
+{% endblock %}
+
+{% if action is not defined %}
+    {% set action = '.' %}
+{% endif %}
+
+<form method="get" action="{{ path('car_service_cars_index') }}" id="frm-filter" class="filter">
+
+    <div class="row float-right">
+
+        {% block beforeFilterActions %}
+        {% endblock %}
+
+        {% block filterActions %}
+            <div class="col-auto pt-3">
+                {{ fap_macros.btn_search(true) }}
+            </div>
+
+            <div class="col-auto pt-3">
+                {{ fap_macros.btn_clear_form( '#e') }}
+            </div>
+        {% endblock %}
+        
+    </div>
+
+    <div class="row align-items-center">
+        {% block filter_fields %}
+        {% endblock %}
+    </div>
+
+    <div class="row align-items-center">
+        {% block additional_row %}
+        {% endblock %}
+    </div>
+
+</form>
+
+{% block javascripts %}
+    <script>
+        // $(".chosen-select").chosen( { 'no_results_text' : 'Sin datos para ', 'placeholder_text_single': '-- seleccionar --' });
+    </script>        
+
+    <script>
+        $('.btn-filter').on('click', 
+        function()
+        {
+            $('#frm-filter').clear();
+            // $('.chosen-select').val('').trigger('chosen:updated');
+        });
+    </script>
+
+{% endblock %}
+
+
+

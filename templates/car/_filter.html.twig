@@ -1,0 +1,11 @@
+{% extends '/common/filter_form.html.twig' %}
+
+{% block filter_fields %}
+    <div class="col-md-3">
+        {{ form_row( formFilter.lastname ) }}
+    </div>
+    <div class="col-md-3">
+        {{ form_row( formFilter.firstname ) }}
+    </div>
+{% endblock %}
+
