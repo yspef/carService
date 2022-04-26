@@ -52,15 +52,13 @@
           {
               $(options.target).find('option').remove().end();
               
+              $(options.target).append($('<option></option>').attr('value', '').text('-- seleccionar --'));
+
               $.each(response.models, function(key, value)
               {
-                  console.log(value.id);
-                  console.log(value.description);
-                  console.log('----');
-                    $(options.target).append($("<option></option>").attr("value", value.id).text(value.description));
+                $(options.target).append($('<option></option>').attr('value', value.id).text(value.description));
               });
-            //   $(options.target).append(response);
-            //   $(options.target).removeAttr('disabled');
+              $(options.target).removeAttr('disabled');
           },
         });
     };

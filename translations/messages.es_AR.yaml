@@ -24,4 +24,11 @@ model: Modelo
 Brand: Marca
 Patent: Patente
 Year model: Año
-Owner: Propieterio
+Owner: Propietario
+owners: Propietarios
+Model: Modelo
+lastname: Apellido
+firstname: Nombre
+Lastname: Apellido
+Firstname: Nombre
+modify.car: Modificar auto

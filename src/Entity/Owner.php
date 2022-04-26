@@ -13,6 +13,17 @@ use Doctrine\ORM\Mapping as ORM;
 class Owner
 {
     /**
+     * constructor
+     */    
+    public function __construct()
+    {
+        $this->cars = new ArrayCollection();
+    }
+
+    // -------------------------------------------------------------------------
+    // properties
+
+    /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -34,10 +45,8 @@ class Owner
      */
     private $cars;
 
-    public function __construct()
-    {
-        $this->cars = new ArrayCollection();
-    }
+    // -------------------------------------------------------------------------
+    // getters and setters
 
     public function getId(): ?int
     {
@@ -76,6 +85,9 @@ class Owner
         return $this->cars;
     }
 
+    // -------------------------------------------------------------------------
+    // adders and removers
+
     public function addCar(Car $car): self
     {
         if (!$this->cars->contains($car)) {
@@ -96,5 +108,32 @@ class Owner
         }
 
         return $this;
+    }
+
+    // -------------------------------------------------------------------------
+    // helper methods
+
+    /**
+     * fullname
+     *
+     * @return string
+     */
+    public function fullname(): string
+    {
+        $zval = $this->getFirstname() . ' ' . $this->getLastname();
+
+        return($zval);
+    }
+
+    /**
+     * magic method __toString
+     *
+     * @return string
+     */
+    public function __toString(): string
+    {
+        $zval = $this->fullname();
+
+        return($zval);
     }
 }

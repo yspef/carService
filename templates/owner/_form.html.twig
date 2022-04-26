@@ -1,0 +1,32 @@
+{% import '/macros/buttons.html.twig' as fap_macros %}
+
+{% include '/common/_form_header.html.twig' with { 'mainTitle': mainTitle, 'url' : url } %}
+
+<div class="card border-secondary p-2">
+    <div class="card-body">
+
+        {{ form_start(form) }}
+
+            <div class="row">
+                <div class="col-md-4">
+                    {{ form_row( form.firstname ) }}
+                </div>
+                <div class="col-md-4">
+                    {{ form_row( form.lastname ) }}
+                </div>
+            </div>
+        </br>
+
+        <div class="row">
+            <div class="col-md-12 text-right">
+                {{ fap_macros.btn_save() }}
+            </div>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+</div>
+
+{% block javascripts %}
+    {# // <script src="{{ asset('bundles/products/js/product/form.min.js') }}"></script> #}
+{% endblock %}

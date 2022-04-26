@@ -27,7 +27,7 @@ class OwnerRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(Owner $entity, bool $flush = true): void
+    public function save(Owner $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -46,6 +46,24 @@ class OwnerRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
+
+    public function index(bool $returnRows = false)
+    {
+        $qb = $this->createQueryBuilder('owner')
+                ->orderBy('owner.lastname', 'asc')
+                ->orderBy('owner.firstname', 'asc')
+        ;
+
+        if(false == $returnRows)
+        {
+            $zval = $qb->getQuery();
+        }
+        {
+            $zval = $qb->getQuery()->getResult();
+        }
+
+        return($zval);
+    }    
 
     // /**
     //  * @return Owner[] Returns an array of Owner objects

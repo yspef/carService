@@ -1,0 +1,13 @@
+{% import '/macros/buttons.html.twig' as fap_macros %}
+
+{% extends '/main/home.html.twig' %}
+
+{% set title = 'owner'|trans %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block content %}
+
+    {% include '/owner/_form.html.twig' with { 'mainTitle': title, 'url': path('car_service_owners_index') } %}
+
+{% endblock %}
