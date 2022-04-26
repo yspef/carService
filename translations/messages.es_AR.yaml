@@ -22,3 +22,6 @@ brand: Marca
 -- select --: -- seleccionar --
 model: Modelo
 Brand: Marca
+Patent: Patente
+Year model: Año
+Owner: Propieterio

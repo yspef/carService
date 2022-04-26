@@ -42,6 +42,11 @@ class Car
      */
     private $yearModel;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Owner::class, inversedBy="cars")
+     */
+    private $owner;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -103,6 +108,18 @@ class Car
     public function setYearModel(int $yearModel): self
     {
         $this->yearModel = $yearModel;
+
+        return $this;
+    }
+
+    public function getOwner(): ?Owner
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?Owner $owner): self
+    {
+        $this->owner = $owner;
 
         return $this;
     }

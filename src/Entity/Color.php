@@ -13,6 +13,17 @@ use Doctrine\ORM\Mapping as ORM;
 class Color
 {
     /**
+     * constructor
+     */
+    public function __construct()
+    {
+        $this->cars = new ArrayCollection();
+    }
+
+    // -------------------------------------------------------------------------
+    // properties
+
+    /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -39,14 +50,32 @@ class Color
      */
     private $cars;
 
-    public function __construct()
-    {
-        $this->cars = new ArrayCollection();
-    }
+    // -------------------------------------------------------------------------
+    // getters and setters
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * Get the value of canPaint
+     */ 
+    public function getCanPaint()
+    {
+        return $this->canPaint;
+    }
+
+    /**
+     * Set the value of canPaint
+     *
+     * @return  self
+     */ 
+    public function setCanPaint($canPaint)
+    {
+        $this->canPaint = $canPaint;
+
+        return $this;
     }
 
     public function getDescription(): ?string
@@ -81,6 +110,9 @@ class Color
         return $this->cars;
     }
 
+    // -------------------------------------------------------------------------
+    // adders and removers
+
     public function addCar(Car $car): self
     {
         if (!$this->cars->contains($car)) {
@@ -103,23 +135,18 @@ class Color
         return $this;
     }
 
-    /**
-     * Get the value of canPaint
-     */ 
-    public function getCanPaint()
-    {
-        return $this->canPaint;
-    }
+    // -------------------------------------------------------------------------
+    // helper methods
 
     /**
-     * Set the value of canPaint
+     * magic method __toString
      *
-     * @return  self
-     */ 
-    public function setCanPaint($canPaint)
+     * @return string
+     */
+    public function __toString(): string
     {
-        $this->canPaint = $canPaint;
+        $zval = $this->getDescription();
 
-        return $this;
+        return($zval);
     }
 }

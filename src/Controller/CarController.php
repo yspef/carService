@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Car;
+use App\Form\CarType;
 use App\Repository\CarRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -10,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route({"en":"/cars","es":"/autos"}, name="car_service_cars_")
+ * @Route({"en":"/cars","es":"/marcas"}, name="car_service_cars_")
  */
 class CarController extends AbstractController
 {
@@ -23,8 +25,8 @@ class CarController extends AbstractController
 
         $paginatorOptions =
         [
-            'defaultSortFieldName' => 'car.description',
-            'defaultSortDirection' => 'asc'
+            // 'defaultSortFieldName' => 'car.brand',
+            // 'defaultSortDirection' => 'asc'
         ];
 
         $pagination = $paginator->paginate(
@@ -34,7 +36,7 @@ class CarController extends AbstractController
             $paginatorOptions
        );        
 
-        return $this->render('@Cars/car/index.html.twig', [
+        return $this->render('/car/index.html.twig', [
             'pagination' => $pagination,
         ]);
     }
@@ -42,71 +44,66 @@ class CarController extends AbstractController
     /**
      * @Route({"en":"/new","es":"/nuevo"}, name="new", methods={"GET","POST"})
      */
-    public function new(Request $request, CarManager $manager): Response
+    public function new(Request $request, CarRepository $repositoy): Response
     {
-        $page = $request->get('onPage');
-        $car = $manager->new();
-        $form = $this->createForm($manager->getFormClass(), $car);
+        $car = new Car();
+        $form = $this->createForm(CarType::class, $car);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($car);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('car_service_cars_index', [ 'page' => $page, ]);
+        if ($form->isSubmitted() && $form->isValid()) 
+        {
+            $repositoy->save($car);
+            $response = $this->redirectToRoute('car_service_cars_index');
+        }
+        else
+        {
+            $response = $this->render('/car/new.html.twig', 
+            [
+                'car' => $car,
+                'form' => $form->createView(),
+            ]);
         }
 
-        return $this->render('@Cars/car/new.html.twig', [
-            'car' => $car,
-            'form' => $form->createView(),
-            'page' => $page,
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="show", methods={"GET"})
-     */
-    public function show(CarInterface $car): Response
-    {
-        return $this->render('@Cars/car/show.html.twig', [
-            'car' => $car,
-        ]);
+        return($response);
     }
 
     /**
      * @Route({"en":"/{id}/edit","es":"/{id}/modificar"}, name="edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, CarInterface $car, CarManager $manager): Response
+    public function edit(Request $request, CarRepository $repository, Car $car): Response
     {
-        $page = $request->get('onPage');
-        $form = $this->createForm($manager->getFormClass(), $car);
+        $form = $this->createForm(CarType::class, $car);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+        if ($form->isSubmitted() && $form->isValid()) 
+        {
+            $repository->save($car);
 
-            return $this->redirectToRoute('car_service_cars_index', [ 'page' => $page, ]);
+            $response = $this->redirectToRoute('car_service_cars_index');
+        }
+        else
+        {
+            $response =  $this->render('/car/edit.html.twig', [
+                'car' => $car,
+                'form' => $form->createView(),
+            ]);
         }
 
-        return $this->render('@Cars/car/edit.html.twig', [
-            'car' => $car,
-            'form' => $form->createView(),
-            'page' => $page,
-        ]);
+        return($response);
     }
 
     /**
-     * @Route("/{id}", name="delete", methods={"DELETE"})
+     * @Route({"en":"/{id}/delete","es":"/{id}/borrar"}, name="delete", methods={"POST"})
      */
-    public function delete(Request $request, CarInterface $car): Response
+    public function delete(Request $request, CarRepository $repository, Car $car): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$car->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($car);
-            $entityManager->flush();
+        if ($this->isCsrfTokenValid('delete'.$car->getId(), $request->request->get('_token'))) 
+        {
+            $repository->remove($car);
         }
 
-        return $this->redirectToRoute('car_service_cars_index', [ 'page' => $request->get('onPage') ]);
+        $response = $this->redirectToRoute('car_service_cars_index');
+
+        return($response);
     }
 }

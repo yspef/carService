@@ -2,7 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\Brand;
 use App\Entity\Car;
+use App\Entity\Model;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -49,17 +51,21 @@ class CarRepository extends ServiceEntityRepository
 
     public function index(bool $returnRows = false)
     {
-        $qb = $this->createQueryBuilder('car')
-                ->orderBy('car.description', 'asc')
+        $qb = $this
+            ->createQueryBuilder('car')
+            ->leftJoin(Brand::class, 'brand',  'WITH', 'brand.id = car.brand' )
+            ->leftJoin(Model::class, 'model',  'WITH', 'model.id = car.model' )
+            ->addOrderBy('car.brand', 'ASC')
+            ->addOrderBy('car.model', 'ASC')
         ;
 
-        
         if(false == $returnRows)
         {
-            $zval = $qb->getQuery();
+            $zval = $qb;
         }
+        else
         {
-            $zval = $qb->getQuery()->getResult();
+            $zval = $qb->getQuery();
         }
 
         return($zval);

@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Model;
 use App\Form\ModelType;
+use App\Repository\BrandRepository;
 use App\Repository\ModelRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,6 +18,34 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ModelController extends AbstractController
 {
+    /**
+     * @Route("/ajax/by-brand", name="by_brand", methods={"POST"}, condition="request.isXmlHttpRequest()")
+     */
+    public function byBrand(Request $request, BrandRepository $brandRepository, ModelRepository $modelRepository): JsonResponse
+    {
+        $models = [];
+
+        if(null != ($brandId = $request->get('id')))
+        {
+            $brand = $brandRepository->find($brandId);
+            $rows = $modelRepository->findBy(['brand' => $brand], ['description' => 'asc']);
+
+            foreach($rows as $row)
+            {
+                $option['id'] = $row->getId();
+                $option['description'] = $row->getDescription();
+
+                $models[] = $option;
+            }
+        }
+        
+        $response = new JsonResponse([ 
+                                        'models' => $models,
+                                     ]);
+
+        return($response);
+    }
+
     /**
      * @Route({"en":"/index","es":"/indice"}, name="index", methods={"GET"})
      */
