@@ -4,10 +4,17 @@ namespace App\Entity;
 
 use App\Repository\CarRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=CarRepository::class)
- */
+ * @ORM\Table("cars",
+ *      uniqueConstraints={@ORM\UniqueConstraint(name="patent", columns={"patent"})},
+ *      indexes={@ORM\Index(name="idx_patent", columns={"patent"}),
+ *  }
+ * )
+ * @UniqueEntity(fields={"patent"})
+  */
 class Car
 {
     /**
@@ -33,7 +40,7 @@ class Car
     private $model;
 
     /**
-     * @ORM\Column(type="string", length=20)
+     * @ORM\Column(type="string", length=20, unique=true)
      */
     private $patent;
 

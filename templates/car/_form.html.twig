@@ -3,7 +3,10 @@
 {% include '/common/_form_header.html.twig' with { 'mainTitle': mainTitle, 'url' : url } %}
 
 <div class="card border-secondary p-2">
+
     <div class="card-body">
+
+        {{ form_errors(form) }}
 
         {{ form_start(form) }}
 

@@ -10,6 +10,7 @@ use App\Entity\Owner;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -19,11 +20,8 @@ class CarType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $data = $builder->getData();
-        $disabled = (null == $data->getId());
-
         $builder
-            ->add('patent')
+            ->add('patent', TextType::class)
             ->add('yearModel')
 
             ->add('brand', EntityType::class, 
@@ -70,7 +68,6 @@ class CarType extends AbstractType
                 'class'         => Model::class,
                 'placeholder'   => '-- select --',
                 'disabled'      => $disabled,
-                // 'choices'       => (true == $disabled) ? [] : [ '1' => '2',],
                 'query_builder' => function(EntityRepository $er) use ($brand)
                 {
                     $qb = (null != $brand) ?
