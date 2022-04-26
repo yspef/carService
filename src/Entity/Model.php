@@ -12,6 +12,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Model
 {
+    /**
+     * constructor
+     */
+    public function __construct()
+    {
+        $this->cars = new ArrayCollection();
+    }
+
     // -------------------------------------------------------------------------
     // properties
 
@@ -41,11 +49,6 @@ class Model
      * @ORM\OneToMany(targetEntity=Car::class, mappedBy="model")
      */
     private $cars;
-
-    public function __construct()
-    {
-        $this->cars = new ArrayCollection();
-    }
 
     // -------------------------------------------------------------------------
     // getters and setters
