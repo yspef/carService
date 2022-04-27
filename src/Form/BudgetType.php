@@ -26,6 +26,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class BudgetType extends AbstractType
 {
+    /**
+     * buildForm
+     *
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     * @return void
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $data  = $builder->getData();
@@ -90,31 +97,11 @@ class BudgetType extends AbstractType
      */
     public function onPreSetData(FormEvent $event): void
     {
-        $data = $event->getData();
-        $form = $event->getForm();
-        
-        $disabled = (null == $data->getId());
-        $owner = $data->getOwner();
+        $data       = $event->getData();
+        $disabled   = (null == $data->getId());
+        $owner      = $data->getOwner();
 
-        $form
-            ->add('car', EntityType::class, 
-            [
-                'class'         => Car::class,
-                'placeholder'   => '-- select --',
-                'disabled'      => $disabled,
-                'query_builder' => function(EntityRepository $er) use ($owner)
-                {
-                    $qb = (null != $owner) ?
-                        $er->createQueryBuilder('c')
-                            ->andWhere('c.owner = :owner')
-                            ->setParameter(':owner', $owner) :
-                        null
-                    ;
-    
-                    return($qb);
-                },                   
-            ])
-        ;
+        $this->addCar($event, $owner, $disabled);
     }
 
     /**
@@ -125,17 +112,32 @@ class BudgetType extends AbstractType
      */
     public function onPreSubmit(FormEvent $event): void
     {
-        $data = $event->getData();
-        $form = $event->getForm();
-        $owner = $data['owner'];
+        $data       = $event->getData();
+        $owner      = $data['owner'];
+        $disabled   = empty($owner);
+
+        $this->addCar($event, $owner, $disabled);
+    }
+
+    /**
+     * addCar
+     *
+     * @param FormEvent $event
+     * @param [type] $owner
+     * @param boolean $disabled
+     * @return void
+     */
+    private function addCar(FormEvent $event, $owner, bool $disabled)
+    {
+        $form     = $event->getForm();
         $disabled = empty($owner);
 
         $form
             ->add('car', EntityType::class, 
             [
-                'class' => Car::class,
-                'placeholder' => '-- select --',
-                'disabled' => $disabled,
+                'class'         => Car::class,
+                'placeholder'   => '-- select --',
+                'disabled'      => $disabled,
                 'query_builder' => function(EntityRepository $er) use ($owner)
                 {
                     $qb = $er->createQueryBuilder('m')

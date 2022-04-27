@@ -3,13 +3,16 @@
 namespace App\Filter;
 
 use App\Entity\Car;
-use App\Entity\Owner;
 use Lexik\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
-use Lexik\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * BudgetFilterType
+ * 
+ * @author facundo ariel pérez <facundo.ariel.perez@gmail.com>
+ */
 class BudgetFilterType extends AbstractType
 {
     /**

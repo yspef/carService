@@ -13,6 +13,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Model
 {
+    use \App\Entity\Traits\IdTrait;
+    use \App\Entity\Traits\DescriptionTrait;
+    use \App\Entity\Traits\OnlineTrait;
+
     /**
      * constructor
      */
@@ -23,23 +27,6 @@ class Model
 
     // -------------------------------------------------------------------------
     // properties
-
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $description;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $online = true;
 
     /**
      * @ORM\ManyToOne(targetEntity=Brand::class, inversedBy="models")
@@ -54,40 +41,22 @@ class Model
     // -------------------------------------------------------------------------
     // getters and setters
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    public function getOnline(): ?bool
-    {
-        return $this->online;
-    }
-
-    public function setOnline(bool $online): self
-    {
-        $this->online = $online;
-
-        return $this;
-    }
-
+    /**
+     * getBrand
+     *
+     * @return Brand|null
+     */
     public function getBrand(): ?Brand
     {
         return $this->brand;
     }
 
+    /**
+     * setBrand
+     *
+     * @param Brand|null $brand
+     * @return self
+     */
     public function setBrand(?Brand $brand): self
     {
         $this->brand = $brand;
@@ -106,6 +75,12 @@ class Model
     // -------------------------------------------------------------------------
     // adders and removers
 
+    /**
+     * addCar
+     *
+     * @param Car $car
+     * @return self
+     */
     public function addCar(Car $car): self
     {
         if (!$this->cars->contains($car)) {
@@ -116,6 +91,12 @@ class Model
         return $this;
     }
 
+    /**
+     * removeCar
+     *
+     * @param Car $car
+     * @return self
+     */
     public function removeCar(Car $car): self
     {
         if ($this->cars->removeElement($car)) {

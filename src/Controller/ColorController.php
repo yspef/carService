@@ -23,11 +23,7 @@ class ColorController extends AbstractController
     {
         $limit = 10;
 
-        $paginatorOptions =
-        [
-            // 'defaultSortFieldName' => 'color.description',
-            // 'defaultSortDirection' => 'asc'
-        ];
+        $paginatorOptions = [];
 
         $pagination = $paginator->paginate(
             $colorRepository->index(),

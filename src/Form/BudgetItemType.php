@@ -9,8 +9,20 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * BudgetItemType
+ * 
+ * @author facundo ariel pérez <facundo.ariel.perez@gmail.com>
+ */
 class BudgetItemType extends AbstractType
 {
+    /**
+     * buildForm
+     *
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     * @return void
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -19,19 +31,16 @@ class BudgetItemType extends AbstractType
                 'placeholder' => '-- select --',
                 'class' => Service::class,
                 'label' => false,
-                ])
-                
-                // ->add('price', null, 
-                // [
-                //     'label' => false,
-                //     'attr' => 
-                //         [
-                //             'readonly' => 'readonly',
-                //         ],
-                // ])
+            ])
         ;
     }
 
+    /**
+     * configureOptions
+     *
+     * @param OptionsResolver $resolver
+     * @return void
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

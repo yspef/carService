@@ -8,7 +8,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-// use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CarRepository::class)
@@ -21,6 +20,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
   */
 class Car
 {
+    use \App\Entity\Traits\IdTrait;
+
     /**
      * constructor
      */
@@ -31,13 +32,6 @@ class Car
 
     // -------------------------------------------------------------------------
     // properties
-
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=Brand::class, inversedBy="cars")
@@ -78,16 +72,22 @@ class Car
     // -------------------------------------------------------------------------
     // getters and setters
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
+    /**
+     * getBrand
+     *
+     * @return Brand|null
+     */
     public function getBrand(): ?Brand
     {
         return $this->brand;
     }
 
+    /**
+     * setBrand
+     *
+     * @param Brand|null $brand
+     * @return self
+     */
     public function setBrand(?Brand $brand): self
     {
         $this->brand = $brand;
@@ -95,11 +95,22 @@ class Car
         return $this;
     }
 
+    /**
+     * getColor
+     *
+     * @return Color|null
+     */
     public function getColor(): ?Color
     {
         return $this->color;
     }
 
+    /**
+     * setColor
+     *
+     * @param Color|null $color
+     * @return self
+     */
     public function setColor(?Color $color): self
     {
         $this->color = $color;
@@ -107,11 +118,22 @@ class Car
         return $this;
     }
 
+    /**
+     * getModel
+     *
+     * @return Model|null
+     */
     public function getModel(): ?Model
     {
         return $this->model;
     }
 
+    /**
+     * setModel
+     *
+     * @param Model|null $model
+     * @return self
+     */
     public function setModel(?Model $model): self
     {
         $this->model = $model;
@@ -119,11 +141,22 @@ class Car
         return $this;
     }
 
+    /**
+     * getPatent
+     *
+     * @return string|null
+     */
     public function getPatent(): ?string
     {
         return $this->patent;
     }
 
+    /**
+     * setPatent
+     *
+     * @param string $patent
+     * @return self
+     */
     public function setPatent(string $patent): self
     {
         $this->patent = $patent;
@@ -131,11 +164,22 @@ class Car
         return $this;
     }
 
+    /**
+     * getYearModel
+     *
+     * @return integer|null
+     */
     public function getYearModel(): ?int
     {
         return $this->yearModel;
     }
 
+    /**
+     * setYearModel
+     *
+     * @param integer $yearModel
+     * @return self
+     */
     public function setYearModel(int $yearModel): self
     {
         $this->yearModel = $yearModel;
@@ -143,11 +187,22 @@ class Car
         return $this;
     }
 
+    /**
+     * getOwner
+     *
+     * @return Owner|null
+     */
     public function getOwner(): ?Owner
     {
         return $this->owner;
     }
 
+    /**
+     * setOwner
+     *
+     * @param Owner|null $owner
+     * @return self
+     */
     public function setOwner(?Owner $owner): self
     {
         $this->owner = $owner;
@@ -166,6 +221,12 @@ class Car
     // -------------------------------------------------------------------------
     // adders and removers
 
+    /**
+     * addBudget
+     *
+     * @param Budget $budget
+     * @return self
+     */
     public function addBudget(Budget $budget): self
     {
         if (!$this->budgets->contains($budget)) {
@@ -176,6 +237,12 @@ class Car
         return $this;
     }
 
+    /**
+     * removeBudget
+     *
+     * @param Budget $budget
+     * @return self
+     */
     public function removeBudget(Budget $budget): self
     {
         if ($this->budgets->removeElement($budget)) {

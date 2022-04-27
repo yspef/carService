@@ -13,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Owner
 {
+    use \App\Entity\Traits\IdTrait;
+
     /**
      * constructor
      */    
@@ -24,13 +26,6 @@ class Owner
 
     // -------------------------------------------------------------------------
     // properties
-
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -55,16 +50,30 @@ class Owner
     // -------------------------------------------------------------------------
     // getters and setters
 
-    public function getId(): ?int
+    /**
+     * @return Collection<int, Budget>
+     */
+    public function getBudgets(): Collection
     {
-        return $this->id;
+        return $this->budgets;
     }
 
+    /**
+     * getFirstname
+     *
+     * @return string|null
+     */
     public function getFirstname(): ?string
     {
         return $this->firstname;
     }
 
+    /**
+     * setFirstname
+     *
+     * @param string $firstname
+     * @return self
+     */
     public function setFirstname(string $firstname): self
     {
         $this->firstname = $firstname;
@@ -72,11 +81,22 @@ class Owner
         return $this;
     }
 
+    /**
+     * getLastname
+     *
+     * @return string|null
+     */
     public function getLastname(): ?string
     {
         return $this->lastname;
     }
 
+    /**
+     * setLastname
+     *
+     * @param string $lastname
+     * @return self
+     */
     public function setLastname(string $lastname): self
     {
         $this->lastname = $lastname;
@@ -95,6 +115,46 @@ class Owner
     // -------------------------------------------------------------------------
     // adders and removers
 
+    /**
+     * addBudget
+     *
+     * @param Budget $budget
+     * @return self
+     */
+    public function addBudget(Budget $budget): self
+    {
+        if (!$this->budgets->contains($budget)) {
+            $this->budgets[] = $budget;
+            $budget->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * removeBudget
+     *
+     * @param Budget $budget
+     * @return self
+     */
+    public function removeBudget(Budget $budget): self
+    {
+        if ($this->budgets->removeElement($budget)) {
+            // set the owning side to null (unless already changed)
+            if ($budget->getOwner() === $this) {
+                $budget->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * addCar
+     *
+     * @param Car $car
+     * @return self
+     */
     public function addCar(Car $car): self
     {
         if (!$this->cars->contains($car)) {
@@ -105,6 +165,12 @@ class Owner
         return $this;
     }
 
+    /**
+     * removeCar
+     *
+     * @param Car $car
+     * @return self
+     */
     public function removeCar(Car $car): self
     {
         if ($this->cars->removeElement($car)) {
@@ -142,35 +208,5 @@ class Owner
         $zval = $this->fullname();
 
         return($zval);
-    }
-
-    /**
-     * @return Collection<int, Budget>
-     */
-    public function getBudgets(): Collection
-    {
-        return $this->budgets;
-    }
-
-    public function addBudget(Budget $budget): self
-    {
-        if (!$this->budgets->contains($budget)) {
-            $this->budgets[] = $budget;
-            $budget->setOwner($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBudget(Budget $budget): self
-    {
-        if ($this->budgets->removeElement($budget)) {
-            // set the owning side to null (unless already changed)
-            if ($budget->getOwner() === $this) {
-                $budget->setOwner(null);
-            }
-        }
-
-        return $this;
     }
 }

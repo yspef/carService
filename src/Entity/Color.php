@@ -13,6 +13,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Color
 {
+    use \App\Entity\Traits\IdTrait;
+    use \App\Entity\Traits\DescriptionTrait;
+    use \App\Entity\Traits\OnlineTrait;
+
     /**
      * constructor
      */
@@ -25,83 +29,12 @@ class Color
     // properties
 
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $canPaint = true;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $description;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $online = true;
-
-    /**
      * @ORM\OneToMany(targetEntity=Car::class, mappedBy="color")
      */
     private $cars;
 
     // -------------------------------------------------------------------------
     // getters and setters
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    /**
-     * Get the value of canPaint
-     */ 
-    public function getCanPaint()
-    {
-        return $this->canPaint;
-    }
-
-    /**
-     * Set the value of canPaint
-     *
-     * @return  self
-     */ 
-    public function setCanPaint($canPaint)
-    {
-        $this->canPaint = $canPaint;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    public function getOnline(): ?bool
-    {
-        return $this->online;
-    }
-
-    public function setOnline(bool $online): self
-    {
-        $this->online = $online;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Car>
@@ -114,6 +47,12 @@ class Color
     // -------------------------------------------------------------------------
     // adders and removers
 
+    /**
+     * addCar
+     *
+     * @param Car $car
+     * @return self
+     */
     public function addCar(Car $car): self
     {
         if (!$this->cars->contains($car)) {
@@ -124,6 +63,12 @@ class Color
         return $this;
     }
 
+    /**
+     * removeCar
+     *
+     * @param Car $car
+     * @return self
+     */
     public function removeCar(Car $car): self
     {
         if ($this->cars->removeElement($car)) {

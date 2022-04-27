@@ -13,6 +13,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Brand
 {
+    use \App\Entity\Traits\IdTrait;
+    use \App\Entity\Traits\DescriptionTrait;
+
     /**
      * constructor
      */
@@ -24,23 +27,6 @@ class Brand
 
     // -------------------------------------------------------------------------
     // properties
-
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */ 
-    private $id;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */ 
-    private $description;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */ 
-    private $online = true;
 
     /**
      * @ORM\OneToMany(targetEntity=Model::class, mappedBy="brand")
@@ -55,35 +41,6 @@ class Brand
     // -------------------------------------------------------------------------
     // getters and setters
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    public function getOnline(): ?bool
-    {
-        return $this->online;
-    }
-
-    public function setOnline(bool $online): self
-    {
-        $this->online = $online;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Model>
      */
@@ -92,6 +49,12 @@ class Brand
         return $this->models;
     }
 
+    /**
+     * addModel
+     *
+     * @param Model $model
+     * @return self
+     */
     public function addModel(Model $model): self
     {
         if (!$this->models->contains($model)) {
@@ -105,6 +68,12 @@ class Brand
     // -------------------------------------------------------------------------
     // adders and removers
 
+    /**
+     * removeModel
+     *
+     * @param Model $model
+     * @return self
+     */
     public function removeModel(Model $model): self
     {
         if ($this->models->removeElement($model)) {
@@ -125,6 +94,12 @@ class Brand
         return $this->cars;
     }
 
+    /**
+     * addCar
+     *
+     * @param Car $car
+     * @return self
+     */
     public function addCar(Car $car): self
     {
         if (!$this->cars->contains($car)) {
@@ -135,6 +110,12 @@ class Brand
         return $this;
     }
 
+    /**
+     * removeCar
+     *
+     * @param Car $car
+     * @return self
+     */
     public function removeCar(Car $car): self
     {
         if ($this->cars->removeElement($car)) {

@@ -13,7 +13,6 @@ class ColorType extends AbstractType
     {
         $builder
             ->add('description')
-            ->add('canPaint')
             ->add('online')
         ;
     }

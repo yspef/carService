@@ -11,15 +11,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class BudgetItem
 {
+    use \App\Entity\Traits\IdTrait;
+
     // -------------------------------------------------------------------------
     // properties
-
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=Service::class, cascade={"persist"})
@@ -41,16 +36,22 @@ class BudgetItem
     // -------------------------------------------------------------------------
     // getters and setters
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
+    /**
+     * getService
+     *
+     * @return Service|null
+     */
     public function getService(): ?Service
     {
         return $this->service;
     }
 
+    /**
+     * setService
+     *
+     * @param Service $service
+     * @return self
+     */
     public function setService(Service $service): self
     {
         $this->service = $service;
@@ -58,11 +59,22 @@ class BudgetItem
         return $this;
     }
 
+    /**
+     * getBudget
+     *
+     * @return Budget|null
+     */
     public function getBudget(): ?Budget
     {
         return $this->budget;
     }
 
+    /**
+     * setBudget
+     *
+     * @param Budget|null $budget
+     * @return self
+     */
     public function setBudget(?Budget $budget): self
     {
         $this->budget = $budget;
@@ -70,11 +82,22 @@ class BudgetItem
         return $this;
     }
 
+    /**
+     * getPrice
+     *
+     * @return string|null
+     */
     public function getPrice(): ?string
     {
         return $this->price;
     }
 
+    /**
+     * setPrice
+     *
+     * @param string $price
+     * @return self
+     */
     public function setPrice(string $price): self
     {
         $this->price = $price;

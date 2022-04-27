@@ -13,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Budget
 {
+    use \App\Entity\Traits\IdTrait;
+
     /**
      * constructor
      */
@@ -23,13 +25,6 @@ class Budget
 
     // -------------------------------------------------------------------------
     // properties
-
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
 
     /**
      * @ORM\Column(type="date")
@@ -59,11 +54,6 @@ class Budget
     // -------------------------------------------------------------------------
     // getters and setters
     
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
     /**
      * @return Collection<int, BudgetItem>
      */
@@ -72,11 +62,22 @@ class Budget
         return $this->items;
     }
 
+    /**
+     * getDate
+     *
+     * @return \DateTimeInterface|null
+     */
     public function getDate(): ?\DateTimeInterface
     {
         return $this->date;
     }
 
+    /**
+     * setDate
+     *
+     * @param \DateTimeInterface $date
+     * @return self
+     */
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
@@ -84,11 +85,22 @@ class Budget
         return $this;
     }
 
+    /**
+     * getOwner
+     *
+     * @return Owner|null
+     */
     public function getOwner(): ?Owner
     {
         return $this->owner;
     }
 
+    /**
+     * setOwner
+     *
+     * @param Owner|null $owner
+     * @return self
+     */
     public function setOwner(?Owner $owner): self
     {
         $this->owner = $owner;
@@ -96,11 +108,22 @@ class Budget
         return $this;
     }
 
+    /**
+     * getCar
+     *
+     * @return Car|null
+     */
     public function getCar(): ?Car
     {
         return $this->car;
     }
 
+    /**
+     * setCar
+     *
+     * @param Car|null $car
+     * @return self
+     */
     public function setCar(?Car $car): self
     {
         $this->car = $car;
@@ -108,11 +131,22 @@ class Budget
         return $this;
     }
 
+    /**
+     * getTotalPrice
+     *
+     * @return string|null
+     */
     public function getTotalPrice(): ?string
     {
         return $this->totalPrice;
     }
 
+    /**
+     * setTotalPrice
+     *
+     * @param string $totalPrice
+     * @return self
+     */
     public function setTotalPrice(string $totalPrice): self
     {
         $this->totalPrice = $totalPrice;
@@ -138,6 +172,12 @@ class Budget
     // -------------------------------------------------------------------------
     // adders and removers
 
+    /**
+     * addItem
+     *
+     * @param BudgetItem $item
+     * @return self
+     */
     public function addItem(BudgetItem $item): self
     {
         if (!$this->items->contains($item)) {
@@ -148,6 +188,12 @@ class Budget
         return $this;
     }
 
+    /**
+     * removeItem
+     *
+     * @param BudgetItem $item
+     * @return self
+     */
     public function removeItem(BudgetItem $item): self
     {
         if ($this->items->removeElement($item)) {
