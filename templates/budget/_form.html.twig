@@ -20,9 +20,11 @@
                 <div class="col-md-auto">
                     {{ form_row( form.car ) }}
                 </div>
-
                 <div class="col-md-auto">
                     {{ form_row( form.totalPrice ) }}
+                </div>
+                <div class="col-md-auto">
+                    {{ fap_macros.btn('calculate'|trans, 'btn-calculate btn-primary', 'fas fa-calculator', false, 'button') }}
                 </div>
 
                 <div class="col-md-12">
@@ -45,6 +47,7 @@
 
 {% block javascripts %}
 
+    <script src="{{ asset('/js/budget/calculate.js') }}"></script>
     <script src="{{ asset('/js/budget/car_select.js') }}"></script>
 
     <script type="text/javascript">
@@ -57,6 +60,19 @@
         });
     </script>
     
+    <script type="text/javascript">
+        $(function(){
+            $('.btn-calculate').calculate( { 
+                                        url: "{{ path('car_service_budgets_calculate' ) }}",
+                                        target: '#budget_totalPrice',
+                                        selector: '.btn-calculate',
+                                        form: 'budget',
+                                        } );
+        });
+    </script>
+    
     <script src="{{ asset('/js/budget/form.js') }}"></script>
     
 {% endblock %}
+
+

@@ -13,6 +13,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Budget
 {
+    /**
+     * constructor
+     */
+    public function __construct()
+    {
+        $this->items = new ArrayCollection();
+    }
+
     // -------------------------------------------------------------------------
     // properties
 
@@ -47,11 +55,6 @@ class Budget
      * @ORM\OneToMany(targetEntity=BudgetItem::class, mappedBy="budget", cascade={"all"})
      */
     private $items;
-
-    public function __construct()
-    {
-        $this->items = new ArrayCollection();
-    }
 
     // -------------------------------------------------------------------------
     // getters and setters

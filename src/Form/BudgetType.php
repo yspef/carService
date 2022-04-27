@@ -12,6 +12,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -23,7 +24,7 @@ class BudgetType extends AbstractType
     {
         $data = $builder->getData();
         $date = (null == $data->getId()) ? (new DateTime()) : $data->getDate();
-        $items = [];
+        $items = (null == $data->getId()) ? [] : $data->getItems();
 
         $builder
             ->add('date', DateType::class, 
@@ -32,7 +33,14 @@ class BudgetType extends AbstractType
                 'data' => $date,
             ])
 
-            ->add('totalPrice')
+            ->add('totalPrice', MoneyType::class,
+            [ 'attr' => 
+                    [
+                        'readonly' => 'readonly',
+                    ],
+
+                'currency' => 'ARS',
+            ])
 
             ->add('owner', EntityType::class, 
             [
@@ -48,17 +56,18 @@ class BudgetType extends AbstractType
 
             ->add('items', CollectionType::class, 
             [
-                'entry_type'    => BudgetItemType::class,
+                'allow_add'     => true,
+                'allow_delete'  => true,
+                'by_reference'  => false,
                 'data'          => $items,
-                'mapped'        => true,
-                'label'         => false,
+                'entry_type'    => BudgetItemType::class,
                 'entry_options' => 
                     [ 
                         'data_class' => BudgetItem::class, 
                         'label' => false,
                     ],
-                'allow_add'     => true,
-                'allow_delete'  => true,
+                'label'         => false,
+                'mapped'        => true,
             ])
         ;
 
@@ -66,7 +75,6 @@ class BudgetType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SUBMIT, [$this, 'onPreSubmit']);
 
     }
-
 
     /**
      * onPreSetData
@@ -113,20 +121,20 @@ class BudgetType extends AbstractType
     {
         $data = $event->getData();
         $form = $event->getForm();
-        $brand = $data['brand'];
-        $disabled = empty($brand);
+        $owner = $data['owner'];
+        $disabled = empty($owner);
 
         $form
-            ->add('model', EntityType::class, 
+            ->add('car', EntityType::class, 
             [
-                'class' => Model::class,
+                'class' => Car::class,
                 'placeholder' => '-- select --',
                 'disabled' => $disabled,
-                'query_builder' => function(EntityRepository $er) use ($brand)
+                'query_builder' => function(EntityRepository $er) use ($owner)
                 {
                     $qb = $er->createQueryBuilder('m')
-                            ->andWhere('m.brand = :brand')
-                            ->setParameter(':brand', $brand)
+                            ->andWhere('m.owner = :owner')
+                            ->setParameter(':owner', $owner)
                     ;
     
                     return($qb);

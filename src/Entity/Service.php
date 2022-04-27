@@ -92,7 +92,7 @@ class Service
      */
     public function __toString(): string
     {
-        $zval = $this->getDescription();
+        $zval = $this->getDescription() . ' - $ ' . $this->getPrice();
 
         return($zval);
     }

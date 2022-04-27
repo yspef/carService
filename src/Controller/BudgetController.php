@@ -5,10 +5,12 @@ namespace App\Controller;
 use App\Entity\Budget;
 use App\Filter\BudgetFilterType;
 use App\Form\BudgetType;
+use App\Inteferfaces\CalculateBudgetServiceInterface;
 use App\Repository\BudgetRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdater;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,6 +20,43 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class BudgetController extends AbstractController
 {
+    /**
+     * @Route({"en":"/calculate","es":"/calcular"}, name="calculate", methods={"POST"})
+     */
+    public function calculate(Request $request, CalculateBudgetServiceInterface $service): JsonResponse
+    {
+        $formData = $request->get('budget');
+        
+        if(isset($formData['items']))
+        {
+            $options = 
+            [
+                'items' => $formData['items'],
+            ];
+
+            $value = $service->calculate($options);
+            $msg = 'success';
+            $ok = true;
+        }
+        else
+        {
+            $value = 0;
+            $msg = 'error al calcular';
+            $ok = false;
+        }
+
+        $zval = 
+        [
+            'ok' => $ok,
+            'value' => $value,
+            'msg' => $msg,
+        ];
+
+        $response = new JsonResponse($zval);
+
+        return($response);
+    }
+
     /**
      * @Route({"en":"/index","es":"/indice"}, name="index", methods={"GET"})
      */
@@ -99,7 +138,7 @@ class BudgetController extends AbstractController
     }
 
     /**
-     * @Route({"en":"/{id}/edit","es":"/{id}/modifibudget"}, name="edit", methods={"GET","POST"})
+     * @Route({"en":"/{id}/edit","es":"/{id}/modificar"}, name="edit", methods={"GET","POST"})
      */
     public function edit(Request $request, BudgetRepository $repository, Budget $budget): Response
     {
