@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Service;
 use App\Form\ServiceType;
 use App\Repository\ServiceRepository;
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -97,12 +98,19 @@ class ServiceController extends AbstractController
      */
     public function delete(Request $request, ServiceRepository $repository, Service $service): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$service->getId(), $request->request->get('_token'))) 
+        try
         {
-            $repository->remove($service);
-        }
+            if ($this->isCsrfTokenValid('delete'.$service->getId(), $request->request->get('_token'))) 
+            {
+                $repository->remove($service);
+            }
 
-        $response = $this->redirectToRoute('car_service_services_index');
+            $response = $this->redirectToRoute('car_service_services_index');
+        }
+        catch(ForeignKeyConstraintViolationException $e)
+        {
+            $response = $this->redirectToRoute('car_service_main_delete_error');
+        }
 
         return($response);
     }

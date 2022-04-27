@@ -2,7 +2,7 @@
 
 namespace App\Resolver;
 
-use App\Inteferfaces\BudgetItemsResolverInterface;
+use App\Interfaces\BudgetItemsResolverInterface;
 use App\Repository\ServiceRepository;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -24,7 +24,6 @@ class BudgetItemsResolver implements BudgetItemsResolverInterface
     public function __construct(ServiceRepository $serviceRepository)
     {
         $this->optionsResolver = new OptionsResolver();
-
         $this->configureOptions();
 
         $this->serviceRepository = $serviceRepository;

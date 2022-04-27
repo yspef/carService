@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Inteferfaces\CalculateBudgetServiceInterface;
+use App\Interfaces\CalculateBudgetServiceInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**

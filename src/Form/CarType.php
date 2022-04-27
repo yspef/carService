@@ -16,8 +16,20 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * CarType
+ * 
+ * @author facundo ariel pérez <facundo.ariel.perez@gmail.com>
+ */
 class CarType extends AbstractType
 {
+    /**
+     * buildForm
+     *
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     * @return void
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -55,31 +67,11 @@ class CarType extends AbstractType
      */
     public function onPreSetData(FormEvent $event): void
     {
-        $data = $event->getData();
-        $form = $event->getForm();
-        
-        $disabled = (null == $data->getId());
-        $brand = $data->getBrand();
+        $data       = $event->getData();
+        $disabled   = (null == $data->getId());
+        $brand      = $data->getBrand();
 
-        $form
-            ->add('model', EntityType::class, 
-            [
-                'class'         => Model::class,
-                'placeholder'   => '-- select --',
-                'disabled'      => $disabled,
-                'query_builder' => function(EntityRepository $er) use ($brand)
-                {
-                    $qb = (null != $brand) ?
-                        $er->createQueryBuilder('m')
-                            ->andWhere('m.brand = :brand')
-                            ->setParameter(':brand', $brand) :
-                        null
-                    ;
-    
-                    return($qb);
-                },                   
-            ])
-        ;
+        $this->addModel($event, $brand, $disabled);
     }
 
     /**
@@ -90,29 +82,45 @@ class CarType extends AbstractType
      */
     public function onPreSubmit(FormEvent $event): void
     {
-        $data = $event->getData();
-        $form = $event->getForm();
-        $brand = $data['brand'];
+        $data       = $event->getData();
+        $brand      = $data['brand'];
+        $disabled   = empty($brand);
+
+        $this->addModel($event, $brand, $disabled);
+    }
+
+    /**
+     * addModel
+     *
+     * @param FormEvent $event
+     * @param Brand|int $brand
+     * @param boolean $disabled
+     * @return void
+     */
+    private function addModel(FormEvent $event, $brand, bool $disabled)
+    {
+        $form     = $event->getForm();
         $disabled = empty($brand);
 
         $form
             ->add('model', EntityType::class, 
             [
-                'class' => Model::class,
-                'placeholder' => '-- select --',
-                'disabled' => $disabled,
+                'class'         => Model::class,
+                'placeholder'   => '-- select --',
+                'disabled'      => $disabled,
                 'query_builder' => function(EntityRepository $er) use ($brand)
                 {
                     $qb = $er->createQueryBuilder('m')
                             ->andWhere('m.brand = :brand')
                             ->setParameter(':brand', $brand)
                     ;
-    
+
                     return($qb);
                 },             
-        ])
+            ])
         ;
     }
+
 
     /**
      * configureOptions

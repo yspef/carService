@@ -18,6 +18,11 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ColorRepository extends ServiceEntityRepository
 {
+    /**
+     * constructor
+     *
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Color::class);
@@ -47,17 +52,23 @@ class ColorRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * index
+     *
+     * @param boolean $returnRows
+     * @return Querybuilder|array
+     */
     public function index(bool $returnRows = false)
     {
         $qb = $this->createQueryBuilder('color')
                 ->orderBy('color.description', 'asc')
         ;
-
         
         if(false == $returnRows)
         {
             $zval = $qb;
         }
+        else
         {
             $zval = $qb->getQuery()->getResult();
         }

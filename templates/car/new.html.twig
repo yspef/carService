@@ -7,7 +7,5 @@
 {% block title %}{{title}}{% endblock %}
 
 {% block content %}
-
     {% include '/car/_form.html.twig' with { 'mainTitle': title, 'url': path('car_service_cars_index') } %}
-
 {% endblock %}

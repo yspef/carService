@@ -19,6 +19,11 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ModelRepository extends ServiceEntityRepository
 {
+    /**
+     * constructor
+     *
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Model::class);
@@ -48,6 +53,12 @@ class ModelRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * choices
+     *
+     * @param boolean $returnRows
+     * @return mixed
+     */
     public function choices(bool $returnRows = false): mixed
     {
         $qb = $this->createQueryBuilder('model')
@@ -66,6 +77,12 @@ class ModelRepository extends ServiceEntityRepository
         return($zval);
     }
 
+    /**
+     * index
+     *
+     * @param boolean $returnRows
+     * @return Qeurybuilder|array
+     */
     public function index(bool $returnRows = false)
     {
         $qb = $this->createQueryBuilder('model')
@@ -78,39 +95,11 @@ class ModelRepository extends ServiceEntityRepository
         {
             $zval = $qb->getQuery();
         }
+        else
         {
             $zval = $qb->getQuery()->getResult();
         }
 
         return($zval);
     }   
-
-    // /**
-    //  * @return Model[] Returns an array of Model objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('m.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Model
-    {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

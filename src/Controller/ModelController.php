@@ -6,6 +6,7 @@ use App\Entity\Model;
 use App\Form\ModelType;
 use App\Repository\BrandRepository;
 use App\Repository\ModelRepository;
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -127,12 +128,19 @@ class ModelController extends AbstractController
      */
     public function delete(Request $request, ModelRepository $repository, Model $model): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$model->getId(), $request->request->get('_token'))) 
+        try
         {
-            $repository->remove($model);
-        }
+            if ($this->isCsrfTokenValid('delete'.$model->getId(), $request->request->get('_token'))) 
+            {
+                $repository->remove($model);
+            }
 
-        $response = $this->redirectToRoute('car_service_models_index');
+            $response = $this->redirectToRoute('car_service_models_index');
+        }
+        catch(ForeignKeyConstraintViolationException $e)
+        {
+            $response = $this->redirectToRoute('car_service_main_delete_error');
+        }
 
         return($response);
     }

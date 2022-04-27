@@ -1,2 +1,2 @@
-service.not.allowed: Servicio %service% no permitido
 incorrect.year.value: Año incorrecto. Rango (%from% - %to%)
+service.not.allowed: Servicio %service% no permitido

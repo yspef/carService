@@ -8,7 +8,6 @@
         {% set borders = 'border-top-width: 0px;border-bottom-width: 0px; padding-top: 0px;padding-bottom: 0px;' %}
     {% endif %}
 
-    {# <a class="btn {{btn_class}}" href="{{url}}" data-toggle="tooltip" data-placement="top" style="border-top-width: 5px;border-bottom-width: 5px; padding-top: 3px;padding-bottom: 3px;" {% if true == show_balloon %}title="{{text}}"{% endif %}{% if true == confirmation %} onclick="return confirm('¿ Confirma ?')"{% endif %}{% if true == blank %}target="_blank"{% endif %}>{% if false == show_balloon %}{{text}}{% endif %} #}
     <a class="btn {{btn_class}}" href="{{url}}" data-toggle="tooltip" data-placement="top" style="{{borders}}" {% if true == show_balloon %}title="{{text}}"{% endif %}{% if true == confirmation %} onclick="return confirm('¿ Confirma ?')"{% endif %}{% if true == blank %}target="_blank"{% endif %}>{% if false == show_balloon %}{{text}}{% endif %}
         {% if '' != icon_class %}
             <span>

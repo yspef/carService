@@ -18,6 +18,11 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ServiceRepository extends ServiceEntityRepository
 {
+    /**
+     * constructor
+     *
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Service::class);
@@ -48,48 +53,26 @@ class ServiceRepository extends ServiceEntityRepository
     }
 
 
+    /**
+     * index
+     *
+     * @param boolean $returnRows
+     * @return void
+     */
     public function index(bool $returnRows = false)
     {
         $qb = $this->createQueryBuilder('service')
-                // ->orderBy('service.description', 'asc')
         ;
 
         if(false == $returnRows)
         {
             $zval = $qb->getQuery();
         }
+        else
         {
             $zval = $qb->getQuery()->getResult();
         }
 
         return($zval);
     }        
-    // /**
-    //  * @return Service[] Returns an array of Service objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Service
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

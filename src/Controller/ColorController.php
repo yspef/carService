@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Color;
 use App\Form\ColorType;
 use App\Repository\ColorRepository;
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -93,12 +94,19 @@ class ColorController extends AbstractController
      */
     public function delete(Request $request, ColorRepository $repository, Color $color): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$color->getId(), $request->request->get('_token'))) 
+        try
         {
-            $repository->remove($color);
-        }
+            if ($this->isCsrfTokenValid('delete'.$color->getId(), $request->request->get('_token'))) 
+            {
+                $repository->remove($color);
+            }
 
-        $response = $this->redirectToRoute('car_service_colors_index');
+            $response = $this->redirectToRoute('car_service_colors_index');
+        }
+        catch(ForeignKeyConstraintViolationException $e)
+        {
+            $response = $this->redirectToRoute('car_service_main_delete_error');
+        }
 
         return($response);
     }

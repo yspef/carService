@@ -18,6 +18,11 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class OwnerRepository extends ServiceEntityRepository
 {
+    /**
+     * constructor
+     *
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Owner::class);
@@ -47,6 +52,12 @@ class OwnerRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * index
+     *
+     * @param boolean $returnRows
+     * @return void
+     */
     public function index(bool $returnRows = false)
     {
         $qb = $this->createQueryBuilder('owner')
@@ -58,39 +69,11 @@ class OwnerRepository extends ServiceEntityRepository
         {
             $zval = $qb;
         }
+        else
         {
             $zval = $qb->getQuery()->getResult();
         }
 
         return($zval);
     }    
-
-    // /**
-    //  * @return Owner[] Returns an array of Owner objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('o.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Owner
-    {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

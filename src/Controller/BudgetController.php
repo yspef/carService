@@ -5,9 +5,10 @@ namespace App\Controller;
 use App\Entity\Budget;
 use App\Filter\BudgetFilterType;
 use App\Form\BudgetType;
-use App\Inteferfaces\BudgetItemsResolverInterface;
-use App\Inteferfaces\CalculateBudgetServiceInterface;
+use App\Interfaces\BudgetItemsResolverInterface;
+use App\Interfaces\CalculateBudgetServiceInterface;
 use App\Repository\BudgetRepository;
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdater;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -144,12 +145,19 @@ class BudgetController extends AbstractController
      */
     public function delete(Request $request, BudgetRepository $repository, Budget $budget): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$budget->getId(), $request->request->get('_token'))) 
+        try
         {
-            $repository->remove($budget);
-        }
+            if ($this->isCsrfTokenValid('delete'.$budget->getId(), $request->request->get('_token'))) 
+            {
+                $repository->remove($budget);
+            }
 
-        $response = $this->redirectToRoute('car_service_budgets_index');
+            $response = $this->redirectToRoute('car_service_budgets_index');
+        }
+        catch(ForeignKeyConstraintViolationException $e)
+        {
+            $response = $this->redirectToRoute('car_service_main_delete_error');
+        }
 
         return($response);
     }

@@ -6,19 +6,33 @@ back: Volver
 brand: Marca
 Brand: Marca
 brands: Marcas
+budget: Presupuesto
+budgets: Presupuestos
+calculate: Calcular
 Can paint: Incluir en el servicio de pintura
+Car: Auto
 cars: Autos
+cars.historical: Historial de servicios
+clean.filter: limpiar filtro
 color: Color
 colors: Colores
 confirm.delete: ¿Confirma borrar?
+date: Fecha
+Date: Fecha
 delete: Borrar
+delete.error: Error al borrar
+delete.error.message: No se puede borrar el dato seleccionado. Contiene información relacionada en otro lugar.
 description: Descripción
 Description: Descripción
 edit: Modificar
 firstname: Nombre
 Firstname: Nombre
+go.previous.page: Volver a la página anterior
+historical: Historial de servicios
 lastname: Apellido
 Lastname: Apellido
+Left date: Desde
+menu: Menú
 model: Modelo
 Model: Modelo
 models: Modelos
@@ -32,23 +46,13 @@ Owner: Propietario
 owners: Propietarios
 patent: Patente
 Patent: Patente
+price: Precio
+Price: Precio
+Right date: Hasta
 save: Guardar
 search: buscar
-Year model: Año
-services: Servicios
 service: Servicio
-Price: Precio
-budgets: Presupuestos
-date: Fecha
-Date: Fecha
-Car: Auto
-budget: Presupuesto
+services: Servicios
 Total price: Importe total
-calculate: Calcular
 total.price: Importe total
-historical: Historial de servicios
-Left date: Desde
-Right date: Hasta
-cars.historical: Historial de servicios
-clean.filter: limpiar filtro
-price: Precio
+Year model: Año

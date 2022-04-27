@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Owner;
 use App\Form\OwnerType;
 use App\Repository\OwnerRepository;
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,11 +24,7 @@ class OwnerController extends AbstractController
     {
         $limit = 10;
 
-        $paginatorOptions =
-        [
-            'defaultSortFieldName' => 'owner.fullname',
-            'defaultSortDirection' => 'asc'
-        ];
+        $paginatorOptions = [];
 
         $pagination = $paginator->paginate(
             $ownerRepository->index(),
@@ -97,12 +94,19 @@ class OwnerController extends AbstractController
      */
     public function delete(Request $request, OwnerRepository $repository, Owner $owner): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$owner->getId(), $request->request->get('_token'))) 
+        try
         {
-            $repository->remove($owner);
-        }
+            if ($this->isCsrfTokenValid('delete'.$owner->getId(), $request->request->get('_token'))) 
+            {
+                $repository->remove($owner);
+            }
 
-        $response = $this->redirectToRoute('car_service_owners_index');
+            $response = $this->redirectToRoute('car_service_owners_index');
+        }
+        catch(ForeignKeyConstraintViolationException $e)
+        {
+            $response = $this->redirectToRoute('car_service_main_delete_error');
+        }
 
         return($response);
     }

@@ -1,7 +1,4 @@
 {% macro item_tag(item) %}
-
-    {# {{dump(item)}} #}
-
     <div class="row item-item">
         <div class="col-md-11">
 
@@ -9,9 +6,6 @@
                 <div class="col-md-5">
                     {{ form_row(item.service) }}
                 </div>
-                {# <div class="col-md-2">
-                    {{ form_row(item.price) }}
-                </div> #}
             </div>
 
         </div>
@@ -38,4 +32,3 @@
         </div>
     </div>
 </div>
-

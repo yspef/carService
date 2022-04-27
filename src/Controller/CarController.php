@@ -8,8 +8,10 @@ use App\Filter\HistoricalFilterType;
 use App\Form\CarType;
 use App\Repository\CarRepository;
 use App\Repository\OwnerRepository;
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdater;
+use PhpParser\Node\Stmt\Catch_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -173,12 +175,19 @@ class CarController extends AbstractController
      */
     public function delete(Request $request, CarRepository $repository, Car $car): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$car->getId(), $request->request->get('_token'))) 
+        try
         {
-            $repository->remove($car);
-        }
+            if($this->isCsrfTokenValid('delete'.$car->getId(), $request->request->get('_token'))) 
+            {
+                $repository->remove($car);
+            }
 
-        $response = $this->redirectToRoute('car_service_cars_index');
+            $response = $this->redirectToRoute('car_service_cars_index');
+        }
+        catch(ForeignKeyConstraintViolationException $e)
+        {
+            $response = $this->redirectToRoute('car_service_main_delete_error');
+        }
 
         return($response);
     }

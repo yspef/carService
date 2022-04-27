@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Brand;
 use App\Form\BrandType;
 use App\Repository\BrandRepository;
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,11 +24,7 @@ class BrandController extends AbstractController
     {
         $limit = 10;
 
-        $paginatorOptions =
-        [
-            'defaultSortFieldName' => 'brand.description',
-            'defaultSortDirection' => 'asc'
-        ];
+        $paginatorOptions = [];
 
         $pagination = $paginator->paginate(
             $brandRepository->index(),
@@ -97,12 +94,19 @@ class BrandController extends AbstractController
      */
     public function delete(Request $request, BrandRepository $repository, Brand $brand): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$brand->getId(), $request->request->get('_token'))) 
+        try
         {
-            $repository->remove($brand);
-        }
+            if ($this->isCsrfTokenValid('delete'.$brand->getId(), $request->request->get('_token'))) 
+            {
+                $repository->remove($brand);
+            }
 
-        $response = $this->redirectToRoute('car_service_brands_index');
+            $response = $this->redirectToRoute('car_service_brands_index');
+        }
+        catch(ForeignKeyConstraintViolationException $e)
+        {
+            $response = $this->redirectToRoute('car_service_main_delete_error');
+        }
 
         return($response);
     }

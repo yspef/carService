@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Inteferfaces;
+namespace App\Interfaces;
 
 /**
  * CalculateBudgetServiceInterface

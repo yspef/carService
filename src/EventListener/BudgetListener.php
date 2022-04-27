@@ -3,7 +3,7 @@
 namespace App\EventListener;
 
 use App\Entity\Budget;
-use App\Inteferfaces\CalculateBudgetServiceInterface;
+use App\Interfaces\CalculateBudgetServiceInterface;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Contracts\EventDispatcher\Event;
 

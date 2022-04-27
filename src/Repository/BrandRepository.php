@@ -18,6 +18,11 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class BrandRepository extends ServiceEntityRepository
 {
+    /**
+     * constructor
+     *
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Brand::class);
@@ -35,6 +40,12 @@ class BrandRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * choices
+     *
+     * @param boolean $returnRows
+     * @return void
+     */
     public function choices(bool $returnRows = false)
     {
         $qb = $this->createQueryBuilder('brand')
@@ -65,50 +76,27 @@ class BrandRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * index
+     *
+     * @param boolean $returnRows
+     * @return Querybuilder|array
+     */
     public function index(bool $returnRows = false)
     {
         $qb = $this->createQueryBuilder('brand')
                 ->orderBy('brand.description', 'asc')
         ;
-
         
         if(false == $returnRows)
         {
             $zval = $qb->getQuery();
         }
+        else
         {
             $zval = $qb->getQuery()->getResult();
         }
 
         return($zval);
     }
-
-    // /**
-    //  * @return Brand[] Returns an array of Brand objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('b.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Brand
-    {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
