@@ -19,6 +19,7 @@ class Owner
     public function __construct()
     {
         $this->cars = new ArrayCollection();
+        $this->budgets = new ArrayCollection();
     }
 
     // -------------------------------------------------------------------------
@@ -45,6 +46,11 @@ class Owner
      * @ORM\OneToMany(targetEntity=Car::class, mappedBy="owner")
      */
     private $cars;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Budget::class, mappedBy="owner")
+     */
+    private $budgets;
 
     // -------------------------------------------------------------------------
     // getters and setters
@@ -136,5 +142,35 @@ class Owner
         $zval = $this->fullname();
 
         return($zval);
+    }
+
+    /**
+     * @return Collection<int, Budget>
+     */
+    public function getBudgets(): Collection
+    {
+        return $this->budgets;
+    }
+
+    public function addBudget(Budget $budget): self
+    {
+        if (!$this->budgets->contains($budget)) {
+            $this->budgets[] = $budget;
+            $budget->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBudget(Budget $budget): self
+    {
+        if ($this->budgets->removeElement($budget)) {
+            // set the owning side to null (unless already changed)
+            if ($budget->getOwner() === $this) {
+                $budget->setOwner(null);
+            }
+        }
+
+        return $this;
     }
 }

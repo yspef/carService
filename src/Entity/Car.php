@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\CarRepository;
 use App\Validator as AppAsserts;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 // use Symfony\Component\Validator\Constraints as Assert;
@@ -19,6 +21,17 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
   */
 class Car
 {
+    /**
+     * constructor
+     */
+    public function __construct()
+    {
+        $this->budgets = new ArrayCollection();
+    }
+
+    // -------------------------------------------------------------------------
+    // properties
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -56,6 +69,14 @@ class Car
      * @ORM\ManyToOne(targetEntity=Owner::class, inversedBy="cars")
      */
     private $owner;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Budget::class, mappedBy="car")
+     */
+    private $budgets;
+
+    // -------------------------------------------------------------------------
+    // getters and setters
 
     public function getId(): ?int
     {
@@ -132,5 +153,53 @@ class Car
         $this->owner = $owner;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Budget>
+     */
+    public function getBudgets(): Collection
+    {
+        return $this->budgets;
+    }
+
+    // -------------------------------------------------------------------------
+    // adders and removers
+
+    public function addBudget(Budget $budget): self
+    {
+        if (!$this->budgets->contains($budget)) {
+            $this->budgets[] = $budget;
+            $budget->setCar($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBudget(Budget $budget): self
+    {
+        if ($this->budgets->removeElement($budget)) {
+            // set the owning side to null (unless already changed)
+            if ($budget->getCar() === $this) {
+                $budget->setCar(null);
+            }
+        }
+
+        return $this;
+    }
+
+    // -------------------------------------------------------------------------
+    // helper methods
+
+    /**
+     * magic method __toString
+     *
+     * @return string
+     */
+    public function __toString(): string
+    {
+        $zval = $this->getBrand() . ' ' . $this->getModel() . ' ' . $this->getOwner() . ' ' . $this->getPatent();
+
+        return($zval);
     }
 }

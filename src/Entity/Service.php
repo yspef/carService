@@ -12,6 +12,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Service
 {
+    // -------------------------------------------------------------------------
+    // properties
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -35,6 +38,9 @@ class Service
      */
     private $price;
 
+    // -------------------------------------------------------------------------
+    // getters and setters
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -74,5 +80,20 @@ class Service
         $this->price = $price;
 
         return $this;
+    }
+
+    // -------------------------------------------------------------------------
+    // helper methods
+
+    /**
+     * magic method __toString
+     *
+     * @return string
+     */
+    public function __toString(): string
+    {
+        $zval = $this->getDescription();
+
+        return($zval);
     }
 }

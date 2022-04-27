@@ -1,0 +1,62 @@
+{% import '/macros/buttons.html.twig' as fap_macros %}
+
+{% include '/common/_form_header.html.twig' with { 'mainTitle': mainTitle, 'url' : url } %}
+
+<div class="card border-secondary p-2">
+
+    <div class="card-body">
+
+        {{ form_errors(form) }}
+
+        {{ form_start(form) }}
+
+            <div class="row">
+                <div class="col-md-auto">
+                    {{ form_row( form.date ) }}
+                </div>
+                <div class="col-md-auto">
+                    {{ form_row( form.owner ) }}
+                </div>
+                <div class="col-md-auto">
+                    {{ form_row( form.car ) }}
+                </div>
+
+                <div class="col-md-auto">
+                    {{ form_row( form.totalPrice ) }}
+                </div>
+
+                <div class="col-md-12">
+                    {{ 'services'|trans }}
+                    {% include '/budget/_row_budget.html.twig' %}
+                </div>
+            </div>
+        </br>
+
+        <div class="row">
+            <div class="col-md-12 text-right">
+                {{ fap_macros.btn_save() }}
+            </div>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+</div>
+
+{% block javascripts %}
+
+{# <script src="{{ asset('/js/dependent_select.js') }}"></script> #}
+
+{# // <script type="text/javascript">
+//     $(function(){
+//         $('#car_brand').dependentSelect( { 
+//                                     selector: '#car_brand',
+//                                     url: "{{ path('car_service_models_by_brand' ) }}",
+//                                     target: '#car_model',
+//                                     entity: 'model'
+//                                     } );
+//     });
+// </script> #}
+
+    <script src="{{ asset('/js/budget/form.js') }}"></script>
+    
+{% endblock %}
