@@ -3,14 +3,8 @@
 {% extends '/common/filter_form.html.twig' %}
 
 {% block filter_fields %}
-    <div class="col-md-auto">
-        {{ form_row( formFilter.date.left_date ) }}
-    </div>
-    <div class="col-md-auto">
-        {{ form_row( formFilter.date.right_date ) }}
-    </div>
     <div class="col-md-3">
-        {{ form_row( formFilter.car ) }}
+        {{ form_row( formFilter.patent ) }}
     </div>
 {% endblock %}
 

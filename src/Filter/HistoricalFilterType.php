@@ -2,7 +2,6 @@
 
 namespace App\Filter;
 
-use App\Entity\Car;
 use Lexik\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -25,17 +24,7 @@ class HistoricalFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('date', Filters\DateRangeFilterType::class,                         
-            [
-                'left_date_options'  => [ 'widget' => 'single_text', ],
-                'right_date_options' => [ 'widget' => 'single_text', ], 
-            ])
-
-            ->add('car', Filters\EntityFilterType::class, 
-            [
-                'placeholder' => '-- select --',
-                'class' => Car::class,
-            ])
+            ->add('patent', Filters\TextFilterType::class)
         ;
     }
    

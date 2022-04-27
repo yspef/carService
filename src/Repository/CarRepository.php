@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Brand;
-use App\Entity\Budget;
 use App\Entity\Car;
 use App\Entity\Model;
 use App\Entity\Owner;
@@ -33,33 +32,6 @@ class CarRepository extends ServiceEntityRepository
     }
 
     /**
-     * historical
-     *
-     * @param boolean $returnRows
-     * @return Queribuilder|array
-     */
-    public function historical(bool $returnRows = false)
-    {
-        $qb = $this
-            ->createQueryBuilder('car')
-            // ->leftJoin(Budget::class, 'budget',  'WITH', 'car.id = budget.car')
-            // ->leftJoin(Owner::class, 'owner',  'WITH', 'owner.id = car.owner')
-            ->addOrderBy('car.patent', 'ASC')
-        ;
-
-        if(false == $returnRows)
-        {
-            $zval = $qb;
-        }
-        else
-        {
-            $zval = $qb->getQuery()->getResult();
-        }
-
-        return($zval);
-    }   
-
-    /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
@@ -83,6 +55,12 @@ class CarRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * index
+     *
+     * @param boolean $returnRows
+     * @return Querybuilder|array
+     */
     public function index(bool $returnRows = false)
     {
         $qb = $this
@@ -105,33 +83,4 @@ class CarRepository extends ServiceEntityRepository
 
         return($zval);
     }
-
-    // /**
-    //  * @return Car[] Returns an array of Car objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Car
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

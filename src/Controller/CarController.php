@@ -57,7 +57,7 @@ class CarController extends AbstractController
         $limit = 10;
 
         $filter = $this->createForm(HistoricalFilterType::class);
-        $qb = $carRepository->historical();
+        $qb = $carRepository->index();
 
         $paginatorOptions = [];
 
@@ -81,7 +81,7 @@ class CarController extends AbstractController
             'pagination' => $pagination,
             'formFilter' => $filter->createView(),
         ]);
-    }    
+    }
 
     /**
      * @Route({"en":"/index","es":"/indice"}, name="index", methods={"GET"})
@@ -93,36 +93,16 @@ class CarController extends AbstractController
         $filter = $this->createForm(CarFilterType::class);
         $qb = $carRepository->index();
 
-        $paginatorOptions =
-        [
-            // 'defaultSortFieldName' => 'car.brand',
-            // 'defaultSortDirection' => 'asc'
-        ];
+        $paginatorOptions = [];
 
         if ($request->query->has($filter->getName())) 
         {
             // manually bind values from the request
             $filter->submit($request->query->get($filter->getName()));
 
-            // initialize a query builder
-            // $filterBuilder = $carRepository
-            //     ->createQueryBuilder('car')
-            // ;
-
-            // $filterBuilder = $carRepository->index();
-
             // build the query from the given form object
             $filterUpdater->addFilterConditions($filter, $qb);
-
-            // now look at the DQL =)
-            // var_dump($filterBuilder->getDql());
-
-            // $qb = $filterBuilder;
         }
-        // else
-        // {
-        //     $qb = $carRepository->index();
-        // }
 
         $pagination = $paginator->paginate(
             $qb,                                    /* qb, not the result* */
