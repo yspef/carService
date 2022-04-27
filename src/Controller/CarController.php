@@ -47,11 +47,12 @@ class CarController extends AbstractController
             $filterUpdater->addFilterConditions($filter, $filterBuilder);
 
             // now look at the DQL =)
-            var_dump($filterBuilder->getDql());
+            // var_dump($filterBuilder->getDql());
         }
 
         $pagination = $paginator->paginate(
-            $carRepository->index(),
+            // $carRepository->index(),
+            $filterBuilder,
             $request->query->getInt('page', 1)      /*page number*/,
             $limit                                  /*limit per page*/,
             $paginatorOptions
