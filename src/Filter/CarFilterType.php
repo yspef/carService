@@ -21,6 +21,8 @@ class CarFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('patent', Filters\TextFilterType::class)
+
             ->add('firstname', Filters\TextFilterType::class,
             [
                 'apply_filter' => [ $this, 'ownerFilter'],

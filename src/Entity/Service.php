@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ServiceRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ServiceRepository::class)
@@ -26,10 +27,11 @@ class Service
     /**
      * @ORM\Column(type="boolean")
      */
-    private $online;
+    private $online = true;
 
     /**
      * @ORM\Column(type="decimal", precision=16, scale=2)
+     * @Assert\GreaterThan(value=0)
      */
     private $price;
 

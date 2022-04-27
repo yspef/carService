@@ -27,7 +27,7 @@ class ServiceRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(Service $entity, bool $flush = true): void
+    public function save(Service $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -47,6 +47,23 @@ class ServiceRepository extends ServiceEntityRepository
         }
     }
 
+
+    public function index(bool $returnRows = false)
+    {
+        $qb = $this->createQueryBuilder('service')
+                ->orderBy('service.description', 'asc')
+        ;
+
+        if(false == $returnRows)
+        {
+            $zval = $qb->getQuery();
+        }
+        {
+            $zval = $qb->getQuery()->getResult();
+        }
+
+        return($zval);
+    }        
     // /**
     //  * @return Service[] Returns an array of Service objects
     //  */
