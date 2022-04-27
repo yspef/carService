@@ -35,6 +35,7 @@
                 <th>{{ knp_pagination_sortable(pagination, 'brand'|trans, 'brand.description') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'model'|trans, 'model.description') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'owner'|trans, 'owner.lastname') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'patent'|trans, 'car.patent') }}</th>
                 <th scope="col" class="text-center pl-0 pr-0">{{ 'actions'|trans }}</th>
             </tr>
         </thead>
@@ -44,6 +45,7 @@
                 <td class="text-left">{{ row.brand }}</td>
                 <td class="text-left">{{ row.model }}</td>
                 <td class="text-left">{{ row.owner }}</td>
+                <td class="text-left">{{ row.patent }}</td>
                 <td class="float-right d-table">
                     {% include '/car/_index_actions.html.twig' %}
                 </td>                

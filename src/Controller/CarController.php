@@ -26,6 +26,7 @@ class CarController extends AbstractController
         $limit = 10;
 
         $filter = $this->createForm(CarFilterType::class);
+        $qb = $carRepository->index();
 
         $paginatorOptions =
         [
@@ -39,22 +40,29 @@ class CarController extends AbstractController
             $filter->submit($request->query->get($filter->getName()));
 
             // initialize a query builder
-            $filterBuilder = $carRepository
-                ->createQueryBuilder('e')
-            ;
+            // $filterBuilder = $carRepository
+            //     ->createQueryBuilder('car')
+            // ;
+
+            // $filterBuilder = $carRepository->index();
 
             // build the query from the given form object
-            $filterUpdater->addFilterConditions($filter, $filterBuilder);
+            $filterUpdater->addFilterConditions($filter, $qb);
 
             // now look at the DQL =)
             // var_dump($filterBuilder->getDql());
+
+            // $qb = $filterBuilder;
         }
+        // else
+        // {
+        //     $qb = $carRepository->index();
+        // }
 
         $pagination = $paginator->paginate(
-            // $carRepository->index(),
-            $filterBuilder,
-            $request->query->getInt('page', 1)      /*page number*/,
-            $limit                                  /*limit per page*/,
+            $qb,                                    /* qb, not the result* */
+            $request->query->getInt('page', 1)      /* page number */,
+            $limit                                  /*l imit per page */,
             $paginatorOptions
        );        
 

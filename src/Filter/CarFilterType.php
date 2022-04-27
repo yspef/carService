@@ -3,7 +3,6 @@
 namespace App\Filter;
 
 use App\Entity\Owner;
-use Lexik\Bundle\FormFilterBundle\Filter\Doctrine\ORMQuery;
 use Lexik\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
 use Lexik\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
 use Symfony\Component\Form\AbstractType;
@@ -24,62 +23,92 @@ class CarFilterType extends AbstractType
         $builder
             ->add('firstname', Filters\TextFilterType::class,
             [
-                'apply_filter' => function (QueryInterface $filterQuery, $field, $values) 
-                {
-                    if( empty( $values['value'] ) ) 
-                    {
-                        return null;
-                    }
+                'apply_filter' => [ $this, 'ownerFilter'],
+                // 'apply_filter' => function (QueryInterface $filterQuery, $field, $values) 
+                // {
+                //     if( empty( $values['value'] ) ) 
+                //     {
+                //         return null;
+                //     }
 
-                    $qb = $filterQuery->getQueryBuilder();
+                //     $qb = $filterQuery->getQueryBuilder();
 
-                    $qb
-                        ->leftJoin(Owner::class, 'owner',  'WITH', 'owner.id = ' . 'e.owner' )
-                        // ->leftJoin( $this->equipmentClass, 'e',  'WITH', 'e.id = ' . 'r.equipment' )
-                    ;
+                //     $qb
+                //         ->leftJoin(Owner::class, 'owner',  'WITH', 'owner.id = ' . 'e.owner' )
+                //         // ->leftJoin( $this->equipmentClass, 'e',  'WITH', 'e.id = ' . 'r.equipment' )
+                //     ;
 
-                    $paramName = sprintf('p_%s', str_replace('.', '_', $field));
+                //     $paramName = sprintf('p_%s', str_replace('.', '_', $field));
     
-                    $parameters = "'%" . $values['value'] . "%'";
-                    $expression = $filterQuery->getExpr()->like('owner.firstname', $parameters);
+                //     $parameters = "'%" . $values['value'] . "%'";
+                //     $expression = $filterQuery->getExpr()->like('owner.firstname', $parameters);
 
-                    $parameters = [ $paramName => $values['value'] ];
+                //     $parameters = [ $paramName => $values['value'] ];
 
-                    $zval =  $filterQuery->createCondition($expression);
+                //     $zval =  $filterQuery->createCondition($expression);
     
-                    return( $zval );
-                },
+                //     return( $zval );
+                // },
             ])
 
             ->add('lastname', Filters\TextFilterType::class,
             [
-                'apply_filter' => function (QueryInterface $filterQuery, $field, $values) 
-                {
-                    if( empty( $values['value'] ) ) 
-                    {
-                        return null;
-                    }
+                'apply_filter' => [ $this, 'ownerFilter'],
+                // 'apply_filter' => function (QueryInterface $filterQuery, $field, $values) 
+                // {
+                //     if( empty( $values['value'] ) ) 
+                //     {
+                //         return null;
+                //     }
 
-                    $qb = $filterQuery->getQueryBuilder();
+                //     $qb = $filterQuery->getQueryBuilder();
 
-                    $qb
-                        ->leftJoin(Owner::class, 'owner',  'WITH', 'owner.id = ' . 'e.owner' )
-                        // ->leftJoin( $this->equipmentClass, 'e',  'WITH', 'e.id = ' . 'r.equipment' )
-                    ;
+                //     $qb
+                //         ->leftJoin(Owner::class, 'owner',  'WITH', 'owner.id = ' . 'e.owner' )
+                //         // ->leftJoin( $this->equipmentClass, 'e',  'WITH', 'e.id = ' . 'r.equipment' )
+                //     ;
 
-                    $paramName = sprintf('p_%s', str_replace('.', '_', $field));
+                //     $paramName = sprintf('p_%s', str_replace('.', '_', $field));
     
-                    $parameters = "'%" . $values['value'] . "%'";
-                    $expression = $filterQuery->getExpr()->like('owner.lastname', $parameters);
+                //     $parameters = "'%" . $values['value'] . "%'";
+                //     $expression = $filterQuery->getExpr()->like('owner.lastname', $parameters);
 
-                    $parameters = [ $paramName => $values['value'] ];
+                //     $parameters = [ $paramName => $values['value'] ];
 
-                    $zval =  $filterQuery->createCondition($expression);
+                //     $zval =  $filterQuery->createCondition($expression);
     
-                    return( $zval );
-                },
+                //     return( $zval );
+                // },
         ])
         ;
+    }
+
+    public function ownerFilter(QueryInterface $filterQuery, $field, $values)
+    {
+        if( empty( $values['value'] ) ) 
+        {
+            return null;
+        }
+
+        // $qb = $filterQuery->getQueryBuilder();
+        // $qb
+        //     ->leftJoin(Owner::class, 'owner',  'WITH', 'owner.id = ' . $values['alias'] . '.owner' )
+        //     // ->leftJoin( $this->equipmentClass, 'e',  'WITH', 'e.id = ' . 'r.equipment' )
+        // ;
+
+        $paramName = sprintf('p_%s', str_replace('.', '_', $field));
+
+        $parameters = "'%" . $values['value'] . "%'";
+
+        $filterField = 'owner' . substr($field, strlen($values['alias']));
+
+        $expression = $filterQuery->getExpr()->like($filterField, $parameters);
+
+        $parameters = [ $paramName => $values['value'] ];
+
+        $zval =  $filterQuery->createCondition($expression);
+
+        return($zval);
     }
     
     /**

@@ -20,7 +20,7 @@
             </div>
 
             <div class="col-auto pt-3">
-                {{ fap_macros.btn_clear_form( '#e') }}
+                {{ fap_macros.btn_clear_form('#e') }}
             </div>
         {% endblock %}
         
@@ -39,15 +39,16 @@
 </form>
 
 {% block javascripts %}
-    <script>
-        // $(".chosen-select").chosen( { 'no_results_text' : 'Sin datos para ', 'placeholder_text_single': '-- seleccionar --' });
-    </script>        
+    {# // <script>
+    //     $(".chosen-select").chosen( { 'no_results_text' : 'Sin datos para ', 'placeholder_text_single': '-- seleccionar --' });
+    // </script>         #}
 
     <script>
         $('.btn-filter').on('click', 
         function()
         {
-            $('#frm-filter').clear();
+            // $('#frm-filter').clear();
+             document.getElementById("frm-filter").reset();
             // $('.chosen-select').val('').trigger('chosen:updated');
         });
     </script>

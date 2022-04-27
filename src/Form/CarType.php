@@ -30,7 +30,6 @@ class CarType extends AbstractType
                 'placeholder' => '-- select --',
             ])
 
-
             ->add('color', EntityType::class, 
             [
                 'class' => Color::class,
