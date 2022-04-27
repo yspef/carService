@@ -84,7 +84,7 @@ class BudgetController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) 
         {
             $repositoy->save($budget);
-            $response = $this->redirectToRoute('budget_service_budgets_index');
+            $response = $this->redirectToRoute('car_service_budgets_index');
         }
         else
         {
@@ -110,7 +110,7 @@ class BudgetController extends AbstractController
         {
             $repository->save($budget);
 
-            $response = $this->redirectToRoute('budget_service_budgets_index');
+            $response = $this->redirectToRoute('car_service_budgets_index');
         }
         else
         {
@@ -133,7 +133,7 @@ class BudgetController extends AbstractController
             $repository->remove($budget);
         }
 
-        $response = $this->redirectToRoute('budget_service_budgets_index');
+        $response = $this->redirectToRoute('car_service_budgets_index');
 
         return($response);
     }

@@ -6,9 +6,11 @@ use App\Entity\Car;
 use App\Filter\CarFilterType;
 use App\Form\CarType;
 use App\Repository\CarRepository;
+use App\Repository\OwnerRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdater;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,6 +20,34 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CarController extends AbstractController
 {
+    /**
+     * @Route("/ajax/by-owner", name="by_owner", methods={"POST"}, condition="request.isXmlHttpRequest()")
+     */
+    public function byOwner(Request $request, CarRepository $carRepository, OwnerRepository $ownerRepository): JsonResponse
+    {
+        $cars = [];
+
+        if(null != ($ownerId = $request->get('id')))
+        {
+            $owner = $ownerRepository->find($ownerId);
+            $rows = $carRepository->findBy(['owner' => $owner]);
+
+            foreach($rows as $row)
+            {
+                $option['id'] = $row->getId();
+                $option['patent'] = $row->getPatent();
+
+                $cars[] = $option;
+            }
+        }
+        
+        $response = new JsonResponse([ 
+                                        'cars' => $cars,
+                                     ]);
+
+        return($response);
+    }
+
     /**
      * @Route({"en":"/index","es":"/indice"}, name="index", methods={"GET"})
      */

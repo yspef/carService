@@ -33,6 +33,11 @@ class BudgetItem
      */
     private $budget;
 
+    /**
+     * @ORM\Column(type="decimal", precision=16, scale=2)
+     */
+    private $price;
+
     // -------------------------------------------------------------------------
     // getters and setters
 
@@ -61,6 +66,18 @@ class BudgetItem
     public function setBudget(?Budget $budget): self
     {
         $this->budget = $budget;
+
+        return $this;
+    }
+
+    public function getPrice(): ?string
+    {
+        return $this->price;
+    }
+
+    public function setPrice(string $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }

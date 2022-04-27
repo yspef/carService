@@ -26,6 +26,7 @@
                 </div>
 
                 <div class="col-md-12">
+                    <hr class="bg-secondary">
                     {{ 'services'|trans }}
                     {% include '/budget/_row_budget.html.twig' %}
                 </div>
@@ -44,19 +45,18 @@
 
 {% block javascripts %}
 
-{# <script src="{{ asset('/js/dependent_select.js') }}"></script> #}
+    <script src="{{ asset('/js/budget/car_select.js') }}"></script>
 
-{# // <script type="text/javascript">
-//     $(function(){
-//         $('#car_brand').dependentSelect( { 
-//                                     selector: '#car_brand',
-//                                     url: "{{ path('car_service_models_by_brand' ) }}",
-//                                     target: '#car_model',
-//                                     entity: 'model'
-//                                     } );
-//     });
-// </script> #}
-
+    <script type="text/javascript">
+        $(function(){
+            $('#budget_owner').carSelect( { 
+                                        url: "{{ path('car_service_cars_by_owner' ) }}",
+                                        target: '#budget_car',
+                                        selector: '#budget_owner',
+                                        } );
+        });
+    </script>
+    
     <script src="{{ asset('/js/budget/form.js') }}"></script>
     
 {% endblock %}

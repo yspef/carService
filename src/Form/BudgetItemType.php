@@ -18,9 +18,13 @@ class BudgetItemType extends AbstractType
             [
                 'placeholder' => '-- select --',
                 'class' => Service::class,
+                'label' => false,
             ])
 
-            ->add('price')
+            ->add('price', null, 
+            [
+                'label' => false,
+            ])
         ;
     }
 

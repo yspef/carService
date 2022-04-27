@@ -44,7 +44,7 @@ class Budget
     private $totalPrice;
 
     /**
-     * @ORM\OneToMany(targetEntity=BudgetItem::class, mappedBy="budget")
+     * @ORM\OneToMany(targetEntity=BudgetItem::class, mappedBy="budget", cascade={"all"})
      */
     private $items;
 
