@@ -56,7 +56,7 @@ class ColorRepository extends ServiceEntityRepository
         
         if(false == $returnRows)
         {
-            $zval = $qb->getQuery();
+            $zval = $qb;
         }
         {
             $zval = $qb->getQuery()->getResult();

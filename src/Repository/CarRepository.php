@@ -67,7 +67,7 @@ class CarRepository extends ServiceEntityRepository
         }
         else
         {
-            $zval = $qb->getQuery();
+            $zval = $qb->getQuery()->getResult();
         }
 
         return($zval);

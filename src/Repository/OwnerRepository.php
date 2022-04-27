@@ -50,13 +50,13 @@ class OwnerRepository extends ServiceEntityRepository
     public function index(bool $returnRows = false)
     {
         $qb = $this->createQueryBuilder('owner')
-                ->orderBy('owner.lastname', 'asc')
-                ->orderBy('owner.firstname', 'asc')
+                ->addOrderBy('owner.lastname', 'asc')
+                ->addOrderBy('owner.firstname', 'asc')
         ;
 
         if(false == $returnRows)
         {
-            $zval = $qb->getQuery();
+            $zval = $qb;
         }
         {
             $zval = $qb->getQuery()->getResult();

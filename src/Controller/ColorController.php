@@ -25,8 +25,8 @@ class ColorController extends AbstractController
 
         $paginatorOptions =
         [
-            'defaultSortFieldName' => 'color.description',
-            'defaultSortDirection' => 'asc'
+            // 'defaultSortFieldName' => 'color.description',
+            // 'defaultSortDirection' => 'asc'
         ];
 
         $pagination = $paginator->paginate(

@@ -25,13 +25,15 @@
     <table class="table table-index table-striped table-sm">
         <thead>
             <tr>
-                <th>{{ knp_pagination_sortable(pagination, 'description'|trans, 'model.description') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'brand'|trans, 'brand.description') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'description'|trans, 'description') }}</th>
                 <th scope="col" class="text-center pl-0 pr-0">{{ 'actions'|trans }}</th>
             </tr>
         </thead>
         <tbody>
         {% for row in pagination %}
             <tr>
+                <td class="text-left">{{ row.brand }}</td>
                 <td class="text-left">{{ row.description }}</td>
                 <td class="float-right d-table">
                     {% include '/model/_index_actions.html.twig' %}

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Brand;
 use App\Entity\Model;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
@@ -67,8 +68,10 @@ class ModelRepository extends ServiceEntityRepository
 
     public function index(bool $returnRows = false)
     {
-        $qb = $this->createQueryBuilder('brand')
-                ->orderBy('brand.description', 'asc')
+        $qb = $this->createQueryBuilder('model')
+                ->leftJoin(Brand::class, 'brand',  'WITH', 'brand.id = model.brand' )
+                ->addOrderBy('brand.description', 'asc')
+                ->addOrderBy('model.description', 'asc')
         ;
 
         if(false == $returnRows)

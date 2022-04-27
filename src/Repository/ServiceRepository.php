@@ -51,7 +51,7 @@ class ServiceRepository extends ServiceEntityRepository
     public function index(bool $returnRows = false)
     {
         $qb = $this->createQueryBuilder('service')
-                ->orderBy('service.description', 'asc')
+                // ->orderBy('service.description', 'asc')
         ;
 
         if(false == $returnRows)
