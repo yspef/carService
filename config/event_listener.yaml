@@ -9,3 +9,10 @@ services:
     tags: 
       - { name: 'doctrine.orm.entity_listener', event: 'prePersist', entity: 'App\Entity\Budget' }
       - { name: 'doctrine.orm.entity_listener', event: 'preUpdate', entity: 'App\Entity\Budget' }
+
+# ------------------------------------------------------------------------------
+
+  car_service.event_listener.budget_item:
+    class: 'App\EventListener\BudgetItemListener'
+    tags: 
+      - { name: 'doctrine.orm.entity_listener', event: 'prePersist', entity: 'App\Entity\BudgetItem' }

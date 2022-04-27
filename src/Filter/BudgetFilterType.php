@@ -2,6 +2,7 @@
 
 namespace App\Filter;
 
+use App\Entity\Car;
 use App\Entity\Owner;
 use Lexik\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
 use Lexik\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
@@ -21,6 +22,11 @@ class BudgetFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('car', Filters\EntityFilterType::class, 
+            [
+                'placeholder' => '-- select --',
+                'class' => Car::class,
+            ])
             // ->add('patent', Filters\TextFilterType::class)
 
             // ->add('firstname', Filters\TextFilterType::class,

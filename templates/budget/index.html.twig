@@ -44,7 +44,7 @@
                 <td class="text-left">{{ row.date|date('d/m/Y') }}</td>
                 <td class="text-left">{{ row.owner }}</td>
                 <td class="text-left">{{ row.car.patent }}</td>
-                <td class="text-left">{{ row.totalPrice }}</td>
+                <td class="text-center bg-success">$ {{ row.totalPrice }}</td>
                 <td class="float-right d-table">
                     {% include '/budget/_index_actions.html.twig' %}
                 </td>                

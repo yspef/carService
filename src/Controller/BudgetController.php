@@ -75,25 +75,9 @@ class BudgetController extends AbstractController
             // manually bind values from the request
             $filter->submit($request->query->get($filter->getName()));
 
-            // initialize a query builder
-            // $filterBuilder = $budgetRepository
-            //     ->createQueryBuilder('budget')
-            // ;
-
-            // $filterBuilder = $budgetRepository->index();
-
             // build the query from the given form object
             $filterUpdater->addFilterConditions($filter, $qb);
-
-            // now look at the DQL =)
-            // var_dump($filterBuilder->getDql());
-
-            // $qb = $filterBuilder;
         }
-        // else
-        // {
-        //     $qb = $budgetRepository->index();
-        // }
 
         $pagination = $paginator->paginate(
             $qb,                                    /* qb, not the result* */

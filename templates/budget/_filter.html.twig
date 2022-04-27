@@ -1,11 +1,13 @@
+{% set action = path('car_service_budgets_index') %}
+
 {% extends '/common/filter_form.html.twig' %}
 
 {% block filter_fields %}
-    {# <div class="col-md-3">
-        {{ form_row( formFilter.owner ) }}
-    </div>
     <div class="col-md-3">
         {{ form_row( formFilter.car ) }}
+    </div>
+    {# <div class="col-md-3">
+        {{ form_row( formFilter.owner ) }}
     </div>
     <div class="col-md-3">
         {{ form_row( formFilter.patent ) }}
