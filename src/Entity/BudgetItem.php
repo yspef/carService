@@ -22,7 +22,7 @@ class BudgetItem
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=Service::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Service::class, cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $service;

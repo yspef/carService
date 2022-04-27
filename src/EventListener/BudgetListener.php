@@ -14,8 +14,13 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class BudgetListener
 {
-    // private $calculateBudgetService;
+    private $calculateBudgetService;
 
+    /**
+     * constructor
+     *
+     * @param CalculateBudgetServiceInterface $calculateBudgetService
+     */
     public function __construct(CalculateBudgetServiceInterface $calculateBudgetService)
     {
         $this->calculateBudgetService = $calculateBudgetService;
@@ -29,10 +34,7 @@ class BudgetListener
      */
     public function prePersist(Budget $budget, LifecycleEventArgs $event)
     {
-        if(null == $budget->getTotalPrice())
-        {
-            $this->doPrice($budget);
-        }
+        $this->doPrice($budget);
     }
 
     /**
@@ -55,6 +57,11 @@ class BudgetListener
      */
     private function doPrice(Budget $budget)
     {
-        $budget->setPrice($this->calculateBudgetService->calculate(['items' => $budget->getItems()]));
+        foreach($budget->getItems() as $item)
+        {
+            $item->setPrice($item->getService()->getPrice());
+        }
+        
+        $budget->setTotalPrice($this->calculateBudgetService->calculate(['items' => $budget->getItems()]));
     }
 }

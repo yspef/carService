@@ -17,7 +17,6 @@ Description: Descripción
 edit: Modificar
 firstname: Nombre
 Firstname: Nombre
-incorrect.year.value: Año incorrecto. Rango (%from% - %to%)
 lastname: Apellido
 Lastname: Apellido
 model: Modelo
@@ -46,3 +45,4 @@ Car: Auto
 budget: Presupuesto
 Total price: Importe total
 calculate: Calcular
+total.price: Importe total

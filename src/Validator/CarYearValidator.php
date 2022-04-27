@@ -7,21 +7,33 @@ use DateTime;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
-// use Symfony\Component\Validator\Exception\UnexpectedValueException;
-
+/**
+ * CarYearValidator
+ * 
+ * @author facundo ariel pérez <facundo.ariel.perez@gmail.com>
+ */
 class CarYearValidator extends ConstraintValidator
 {
     private $carYearFrom;
-    private $translator;
 
-    public function __construct(int $bindCarYearFrom, TranslatorInterface $translator)
+    /**
+     * constructor
+     *
+     * @param integer $bindCarYearFrom
+     */
+    public function __construct(int $bindCarYearFrom)
     {
         $this->carYearFrom = $bindCarYearFrom;
-        $this->translator = $translator;
     }
 
+    /**
+     * validate
+     *
+     * @param [type] $value
+     * @param Constraint $constraint
+     * @return void
+     */
     public function validate($value, Constraint $constraint)
     {
         if (!$constraint instanceof CarYear) 
@@ -41,9 +53,7 @@ class CarYearValidator extends ConstraintValidator
 
         if($this->carYearFrom > $value || $to < $value)
         {
-            $msg = $this->translator->trans($constraint->message, [ '%from%' => $this->carYearFrom, '%to%' => $to,]);
-
-            $this->context->buildViolation($msg)
+            $this->context->buildViolation($constraint->message, [ '%from%' => $this->carYearFrom, '%to%' => $to,])
                 ->addViolation();
         }
     }

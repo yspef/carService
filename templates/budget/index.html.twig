@@ -34,6 +34,7 @@
                 <th>{{ knp_pagination_sortable(pagination, 'date'|trans, 'budget.date') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'owner'|trans, 'owner.lastname') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'patent'|trans, 'car.patent') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'total.price'|trans, 'budget.totalPrice') }}</th>
                 <th scope="col" class="text-center pl-0 pr-0">{{ 'actions'|trans }}</th>
             </tr>
         </thead>
@@ -43,6 +44,7 @@
                 <td class="text-left">{{ row.date|date('d/m/Y') }}</td>
                 <td class="text-left">{{ row.owner }}</td>
                 <td class="text-left">{{ row.car.patent }}</td>
+                <td class="text-left">{{ row.totalPrice }}</td>
                 <td class="float-right d-table">
                     {% include '/budget/_index_actions.html.twig' %}
                 </td>                

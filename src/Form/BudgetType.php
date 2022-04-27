@@ -6,6 +6,7 @@ use App\Entity\Budget;
 use App\Entity\BudgetItem;
 use App\Entity\Car;
 use App\Entity\Owner;
+use App\Validator\Service;
 use DateTime;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -18,12 +19,17 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * BudgetType
+ * 
+ * @author facundo ariel pérez <facundo.ariel.perez@gmail.com>
+ */
 class BudgetType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $data = $builder->getData();
-        $date = (null == $data->getId()) ? (new DateTime()) : $data->getDate();
+        $data  = $builder->getData();
+        $date  = (null == $data->getId()) ? (new DateTime()) : $data->getDate();
         $items = (null == $data->getId()) ? [] : $data->getItems();
 
         $builder
@@ -74,7 +80,6 @@ class BudgetType extends AbstractType
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'onPreSetData']);
         $builder->addEventListener(FormEvents::PRE_SUBMIT, [$this, 'onPreSubmit']);
-
     }
 
     /**
@@ -154,7 +159,8 @@ class BudgetType extends AbstractType
     {
         $resolver->setDefaults(
         [
-            'data_class' => Budget::class,
+            'data_class'    => Budget::class,
+            'constraints'   => [ new Service(), ],
         ]);
     }
 }
