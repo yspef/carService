@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Car;
 use App\Filter\CarFilterType;
+use App\Filter\HistoricalFilterType;
 use App\Form\CarType;
 use App\Repository\CarRepository;
 use App\Repository\OwnerRepository;
@@ -47,6 +48,40 @@ class CarController extends AbstractController
 
         return($response);
     }
+
+    /**
+     * @Route({"en":"/historical","es":"/historial-de-servicios"}, name="historical", methods={"GET"})
+     */
+    public function historical(Request $request, PaginatorInterface $paginator, CarRepository $carRepository, FilterBuilderUpdater $filterUpdater): Response
+    {
+        $limit = 10;
+
+        $filter = $this->createForm(HistoricalFilterType::class);
+        $qb = $carRepository->historical();
+
+        $paginatorOptions = [];
+
+        if ($request->query->has($filter->getName())) 
+        {
+            // manually bind values from the request
+            $filter->submit($request->query->get($filter->getName()));
+
+            // build the query from the given form object
+            $filterUpdater->addFilterConditions($filter, $qb);
+        }
+
+        $pagination = $paginator->paginate(
+            $qb,                                    /* qb, not the result* */
+            $request->query->getInt('page', 1)      /* page number */,
+            $limit                                  /*l imit per page */,
+            $paginatorOptions
+       );        
+
+        return $this->render('/car_historical/historical.html.twig', [
+            'pagination' => $pagination,
+            'formFilter' => $filter->createView(),
+        ]);
+    }    
 
     /**
      * @Route({"en":"/index","es":"/indice"}, name="index", methods={"GET"})

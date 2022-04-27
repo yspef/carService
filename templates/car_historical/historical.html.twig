@@ -1,0 +1,71 @@
+{% import '/macros/buttons.html.twig' as fap_macros %}
+
+{% extends '/main/home.html.twig' %}
+
+{% set title = 'cars.historical'|trans %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block content %}
+
+<br>
+
+<div class="alert alert-primary">
+    <div class="row">
+        <div class="col-md-auto">
+            <h4>{{title}}</h4>
+        </div>
+    </div>
+
+    {% include '/car_historical/_filter.html.twig' %}
+</div>
+
+<div class="table-list table-responsive">
+    <table class="table table-index table-striped table-sm">
+        <thead>
+        </thead>
+        <tbody>
+            {% for row in pagination %}
+                <tr class="bg-success">
+                    <th>{{ 'owner'|trans }}</th>
+                    <th>{{ 'patent'|trans }}</th>
+                </tr>
+                <tr>
+                    <td class="text-left">{{ row.owner }}</td>
+                    <td class="text-left">{{ row.patent }}</td>
+                </tr>
+
+            <tr class="bg-secondary">
+                <th>{{ 'date'|trans }}</th>
+                <th>{{ 'total.price'|trans }}</th>
+            </tr>
+
+            {% for budget in row.budgets %}
+                <tr>
+                    <td class="text-left">{{ budget.date|date('d/m/Y') }}</td>
+                    <td class="text-left">$ {{ budget.totalPrice }}</td>
+
+                    <tr class="bg-info">
+                        <th>{{ 'service'|trans }}</th>
+                        <th>{{ 'price'|trans }}</th>
+                    </tr>
+            
+                    {% for item in budget.items %}
+                        <tr>
+                            <td class="text-left">{{ item.service }}</td>
+                            <td class="text-left">$ {{ item.price }}</td>
+                        </tr>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="20">{{'no.data'|trans}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {{ knp_pagination_render(pagination) }}    
+</div>
+
+{% endblock %}

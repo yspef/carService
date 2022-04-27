@@ -64,11 +64,7 @@ class BudgetController extends AbstractController
         $filter = $this->createForm(BudgetFilterType::class);
         $qb = $budgetRepository->index();
 
-        $paginatorOptions =
-        [
-            // 'defaultSortFieldName' => 'budget.brand',
-            // 'defaultSortDirection' => 'asc'
-        ];
+        $paginatorOptions = [];
 
         if ($request->query->has($filter->getName())) 
         {

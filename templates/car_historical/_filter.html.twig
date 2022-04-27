@@ -1,0 +1,16 @@
+{% set action = path('car_service_cars_historical') %}
+
+{% extends '/common/filter_form.html.twig' %}
+
+{% block filter_fields %}
+    <div class="col-md-auto">
+        {{ form_row( formFilter.date.left_date ) }}
+    </div>
+    <div class="col-md-auto">
+        {{ form_row( formFilter.date.right_date ) }}
+    </div>
+    <div class="col-md-3">
+        {{ form_row( formFilter.car ) }}
+    </div>
+{% endblock %}
+

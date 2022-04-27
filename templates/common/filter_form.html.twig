@@ -39,19 +39,12 @@
 </form>
 
 {% block javascripts %}
-    {# // <script>
-    //     $(".chosen-select").chosen( { 'no_results_text' : 'Sin datos para ', 'placeholder_text_single': '-- seleccionar --' });
-    // </script>         #}
-
     <script>
         $('.btn-filter').on('click', 
         function()
         {
-            // $('#frm-filter').clear();
-            //  document.getElementById("frm-filter").reset();
-
-             $('#frm-filter input').val('');
-            // $('.chosen-select').val('').trigger('chosen:updated');
+            $('#frm-filter input').val('');
+            $(':input').prop('selectedIndex', 0);
         });
     </script>
 

@@ -3,14 +3,17 @@
 namespace App\Filter;
 
 use App\Entity\Car;
-use App\Entity\Owner;
 use Lexik\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
-use Lexik\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class BudgetFilterType extends AbstractType
+/**
+ * HistoricalFilterType
+ * 
+ * @author facundo ariel pérez <facundo.ariel.perez@gmail.com>
+ */
+class HistoricalFilterType extends AbstractType
 {
     /**
      * buildForm
@@ -22,6 +25,12 @@ class BudgetFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('date', Filters\DateRangeFilterType::class,                         
+            [
+                'left_date_options'  => [ 'widget' => 'single_text', ],
+                'right_date_options' => [ 'widget' => 'single_text', ], 
+            ])
+
             ->add('car', Filters\EntityFilterType::class, 
             [
                 'placeholder' => '-- select --',
@@ -29,7 +38,7 @@ class BudgetFilterType extends AbstractType
             ])
         ;
     }
-
+   
     /**
      * configureOptions
      *
@@ -52,7 +61,7 @@ class BudgetFilterType extends AbstractType
      */
     public function getBlockPrefix(): string
     {
-        $zval = 'budget_filter_type';
+        $zval = 'historical_filter_type';
 
         return($zval);
     }

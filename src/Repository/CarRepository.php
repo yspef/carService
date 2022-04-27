@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Brand;
+use App\Entity\Budget;
 use App\Entity\Car;
 use App\Entity\Model;
 use App\Entity\Owner;
@@ -21,10 +22,42 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CarRepository extends ServiceEntityRepository
 {
+    /**
+     * constructor
+     *
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Car::class);
     }
+
+    /**
+     * historical
+     *
+     * @param boolean $returnRows
+     * @return Queribuilder|array
+     */
+    public function historical(bool $returnRows = false)
+    {
+        $qb = $this
+            ->createQueryBuilder('car')
+            // ->leftJoin(Budget::class, 'budget',  'WITH', 'car.id = budget.car')
+            // ->leftJoin(Owner::class, 'owner',  'WITH', 'owner.id = car.owner')
+            ->addOrderBy('car.patent', 'ASC')
+        ;
+
+        if(false == $returnRows)
+        {
+            $zval = $qb;
+        }
+        else
+        {
+            $zval = $qb->getQuery()->getResult();
+        }
+
+        return($zval);
+    }   
 
     /**
      * @throws ORMException

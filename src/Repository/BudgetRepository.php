@@ -54,7 +54,12 @@ class BudgetRepository extends ServiceEntityRepository
         }
     }
 
-
+    /**
+     * index
+     *
+     * @param boolean $returnRows
+     * @return Queribuilder|array
+     */
     public function index(bool $returnRows = false)
     {
         $qb = $this
@@ -75,4 +80,5 @@ class BudgetRepository extends ServiceEntityRepository
 
         return($zval);
     }
+ 
 }
