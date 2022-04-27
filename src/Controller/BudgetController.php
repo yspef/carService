@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Budget;
 use App\Filter\BudgetFilterType;
 use App\Form\BudgetType;
+use App\Inteferfaces\BudgetItemsResolverInterface;
 use App\Inteferfaces\CalculateBudgetServiceInterface;
 use App\Repository\BudgetRepository;
 use Knp\Component\Pager\PaginatorInterface;
@@ -23,25 +24,21 @@ class BudgetController extends AbstractController
     /**
      * @Route({"en":"/calculate","es":"/calcular"}, name="calculate", methods={"POST"})
      */
-    public function calculate(Request $request, CalculateBudgetServiceInterface $service): JsonResponse
+    public function calculate(Request $request, BudgetItemsResolverInterface $resolver, CalculateBudgetServiceInterface $service): JsonResponse
     {
         $formData = $request->get('budget');
-        
+
         if(isset($formData['items']))
         {
-            $options = 
-            [
-                'items' => $formData['items'],
-            ];
-
-            $value = $service->calculate($options);
-            $msg = 'success';
-            $ok = true;
+            $items  = $resolver->resolve(['items' => $formData['items'],]);
+            $value  = $service->calculate(['items' => $items,]);
+            $msg    = 'success';
+            $ok     = true;
         }
         else
         {
             $value = 0;
-            $msg = 'error al calcular';
+            $msg = 'error';
             $ok = false;
         }
 

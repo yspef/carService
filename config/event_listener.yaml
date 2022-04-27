@@ -1,0 +1,11 @@
+services:
+
+# ------------------------------------------------------------------------------
+
+  car_service.event_listener.budget:
+    class: 'App\EventListener\BudgetListener'
+    arguments:
+            - '@App\Inteferfaces\CalculateBudgetServiceInterface'
+    tags: 
+      - { name: 'doctrine.orm.entity_listener', event: 'prePersist', entity: 'App\Entity\Budget' }
+      - { name: 'doctrine.orm.entity_listener', event: 'preUpdate', entity: 'App\Entity\Budget' }

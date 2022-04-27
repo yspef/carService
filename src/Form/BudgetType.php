@@ -34,7 +34,8 @@ class BudgetType extends AbstractType
             ])
 
             ->add('totalPrice', MoneyType::class,
-            [ 'attr' => 
+            [ 
+                'attr' => 
                     [
                         'readonly' => 'readonly',
                     ],

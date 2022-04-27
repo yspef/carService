@@ -3,7 +3,6 @@
 namespace App\Service;
 
 use App\Inteferfaces\CalculateBudgetServiceInterface;
-use App\Repository\ServiceRepository;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -14,30 +13,39 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class CalculateBudgetService implements CalculateBudgetServiceInterface
 {
     private $optionsResolver;
-    private $serviceRepository;
 
-    public function __construct(ServiceRepository $serviceRepository)
+    /**
+     * constructor
+     */
+    public function __construct()
     {
         $this->optionsResolver = new OptionsResolver();
-        $this->serviceRepository = $serviceRepository;
+        $this->configureOptions();
     }
 
+    /**
+     * calculate
+     *
+     * @param array $options
+     * @return float
+     */
     public function calculate(array $options): float
     {
         $zval = 0;
 
         foreach($options['items'] as $item)
         {
-            $serviceId = $item['service'];
-            if(null != ($service = $this->serviceRepository->find($serviceId)))
-            {
-                $zval += $service->getPrice();
-            }
+            $zval += $item->getPrice();
         }
 
         return($zval);
     }
 
+    /**
+     * configureOptions
+     *
+     * @return void
+     */
     private function configureOptions()
     {
         $this->optionsResolver->setDefaults(
@@ -45,6 +53,6 @@ class CalculateBudgetService implements CalculateBudgetServiceInterface
                 'items' => [],
             ]);
 
-        $this->optionsResolver->setAllowedTypes('items', 'array');
+        $this->optionsResolver->setAllowedTypes('items', 'App\Entity\BudgetItem[]');
     }
 }
